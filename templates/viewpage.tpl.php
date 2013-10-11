@@ -3,7 +3,6 @@
 <script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-popover.js"></script>
 
 
-
 <style>
 .node-tabs, .action-links {
   display: none;
@@ -17,10 +16,18 @@
 
 <?php 
 
+if (!isset($isDBFiles)) {
+ $isDBFiles = 0;
+}
+
+
+
 $hasAccess_Clone = 0;
-if ($router_item = menu_get_item("node/" . $node -> nid . "/clone/")) {
-  if ($router_item['access']) {
-    $hasAccess_Clone = 1;
+if ($isDBFiles == 0) {
+  if ($router_item = menu_get_item("node/" . $node -> nid . "/clone/")) {
+    if ($router_item['access']) {
+      $hasAccess_Clone = 1;
+    }
   }
 }
 
@@ -38,18 +45,39 @@ if ($router_item = menu_get_item("node/" . $node -> nid . "/delete/")) {
   }
 }
 
-$hasAccess_Publish = 0;
-if ($router_item = menu_get_item("node/" . $node -> nid . "/edit/")) {
-  if ($router_item['access']) {
-    $hasAccess_Publish = 1;
-  }
-}
+// checking diff url if files
+if ($isDBFiles == 1) {
 
-$hasAccess_Share = 0;
-if ($router_item = menu_get_item("node/" . $node -> nid . "/edit/")) {
-  if ($router_item['access']) {
-    $hasAccess_Share = 1;
+  $hasAccess_Publish = 0;
+  if ($router_item = menu_get_item("resource/file/" . $node -> nid . "/edit/")) {
+    if ($router_item['access']) {
+      $hasAccess_Publish = 1;
+    }
   }
+
+  $hasAccess_Share = 0;
+  if ($router_item = menu_get_item("resource/file/" . $node -> nid . "/edit/")) {
+    if ($router_item['access']) {
+      $hasAccess_Share = 1;
+    }
+  }
+
+} else {
+
+  $hasAccess_Publish = 0;
+  if ($router_item = menu_get_item("node/" . $node -> nid . "/edit/")) {
+    if ($router_item['access']) {
+      $hasAccess_Publish = 1;
+    }
+  }
+
+  $hasAccess_Share = 0;
+  if ($router_item = menu_get_item("node/" . $node -> nid . "/edit/")) {
+    if ($router_item['access']) {
+      $hasAccess_Share = 1;
+    }
+  }
+
 }
 
 $hasAccess_ApprovePublish = 0;
@@ -159,17 +187,34 @@ if (!empty($node->field_public_status['und'][0]['value'])) {
 <?php endif; ?>
 
 
+
+
+
 <div class="resource-links">
   <ul>
 
-<?php if ($hasAccess_Clone == 1): ?>
-    <li><a href="<?php echo base_path() . "node/" . $node -> nid ?>/clone/" class="links copy">COPY</a></li>
+<?php if ($isDBFiles == 0): ?>
+  <?php if ($hasAccess_Clone == 1): ?>
+      <li><a href="<?php echo base_path() . "node/" . $node -> nid ?>/clone/" class="links copy">COPY</a></li>
+  <?php endif; ?>
 <?php endif; ?>
 
-<?php if ($field_public_status == 'Public' && $hasAccess_Edit == 1): ?>
-    <li><a href="#" class="links edit popover-link" id="edit-btn">EDIT</a></li>
-<?php elseif ($hasAccess_Edit == 1): ?>
-    <li><a href="<?php echo base_path() . "node/" . $node -> nid ?>/edit/" class="links edit"  id="edit-btn">EDIT</a></li>
+<?php if ($isDBFiles == 1): ?>
+
+  <?php if ($field_public_status == 'Public' && $hasAccess_Edit == 1): ?>
+      <li><a href="#" class="links edit popover-link" id="edit-btn">EDIT</a></li>
+  <?php elseif ($hasAccess_Edit == 1): ?>
+      <li><a href="<?php echo base_path() . "resource/file/" . $node -> nid ?>/edit/" class="links edit"  id="edit-btn">EDIT</a></li>
+  <?php endif; ?>
+
+<?php else: ?>
+
+  <?php if ($field_public_status == 'Public' && $hasAccess_Edit == 1): ?>
+      <li><a href="#" class="links edit popover-link" id="edit-btn">EDIT</a></li>
+  <?php elseif ($hasAccess_Edit == 1): ?>
+      <li><a href="<?php echo base_path() . "node/" . $node -> nid ?>/edit/" class="links edit"  id="edit-btn">EDIT</a></li>
+  <?php endif; ?>
+
 <?php endif; ?>
 
 <?php if ($hasAccess_Delete == 1): ?>
