@@ -19,8 +19,9 @@
 if (!isset($isDBFiles)) {
  $isDBFiles = 0;
 }
-
-
+if (!isset($hideActionButtons)) {
+ $hideActionButtons = 0;
+}
 
 $hasAccess_Clone = 0;
 if ($isDBFiles == 0) {
@@ -190,6 +191,10 @@ if (!empty($node->field_public_status['und'][0]['value'])) {
 
 
 
+
+<?php if ($hideActionButtons == 0): ?>
+
+
 <div class="resource-links">
   <ul>
 
@@ -232,6 +237,9 @@ if (!empty($node->field_public_status['und'][0]['value'])) {
   </ul>
 </div>
 
+<?php endif; ?>
+
+
 <div class="resource-heading">
   <div class="resource-title"><?php print $node -> title ?></div>
   <div class="resource-author"><strong>Created by:</strong> <?php print $node -> name ?></div>
@@ -260,6 +268,9 @@ function loadMenu() {
 
 <?php if ($node->status == 0 && $hasAccess_Share == 1): ?>
       $('#share-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeShareConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'Do you wish to share this resource with anyone with the link?<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/share/">Yes</a>&nbsp;&nbsp;<button onclick="closeShareConfirm();" class="btn">No</button></div>'});
+
+<?php elseif ($node->status == 1 && $field_public_status == 'Public' && $hasAccess_Share == 1): ?>
+      $('#share-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeShareConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'Your resource is shared and is visible to anyone with the link.<br><br>Link to share:<br><input type="text" class="input" style="width:100%;" value="<?php echo $GLOBALS['base_url'] . "/node/" . $node -> nid ?>"><br><br>Your resource is currently visible in the public database.<br><br>Please unpublish this resource before unsharing.'});
 <?php elseif ($hasAccess_Share == 1): ?>
       $('#share-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeShareConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'Your resource is shared and is visible to anyone with the link.<br><br>Link to share:<br><input type="text" class="input" style="width:100%;" value="<?php echo $GLOBALS['base_url'] . "/node/" . $node -> nid ?>"><br><br>You may unshare your resource at any time.<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/unshare/">Unshare</a></div><br>Note: Others may be using your resource and care should be taken when Unpublishing.</div>'});
 <?php endif; ?>
