@@ -84,7 +84,6 @@ $epe_ev_path = drupal_get_path('module', 'epe_ev');
 
 include($_SERVER["DOCUMENT_ROOT"] . $GLOBALS["base_path"] . $epe_ev_path . "/inc/epe_ev_lib.php");
 
-
 // set path to EduVis framework
 $EduVis_path = $GLOBALS['base_url'] . '/'. $epe_ev_path .'/EduVis/';
 
@@ -93,36 +92,41 @@ drupal_add_js( $EduVis_path . "EduVis.js" );
 
 // initialize the tool array
 $ev_tool = array();
+ 
+// get the tool details (name, path_css, path_js) from the instance parent reference "field_parent_tool"
+$ev_tool["tool"] = epe_getNodeValues( array("field_tool_name"), $node );
 
-// dont show anythign in teaser mode
-//if(!$teaser){
-  
-  // get the tool details (name, path_css, path_js) from the instance parent reference "field_parent_tool"
-  $ev_tool["tool"] = epe_getNodeValues( array("field_tool_name"), $node );
-
-//}
-    
 ?>
 
-<div id="vistool"></div>
+<article id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
+
+<div style="background-color: #c8d5de;padding:23px;margin-bottom:20px;">
+  <div style="border: 1px solid #0195bd;background-color: #fff;padding:20px 31px;">
+  <!-- content -->
+
+    <div id="vistool"></div>
+
+    <!-- comments -->
+    <?php print render($content['comments']); ?>
+
+  </div>
+</div>
+
+</article>
 
 <script type="text/javascript">
-(function(){
+(function(EduVis){
 
-  // dev notification for now.
-  alert('node--newer-ev_tool.tpl.php');
-
+  // todo: used original setpath method. will update for setPaths in future
   EduVis.Environment.setPath("<?php print $EduVis_path; ?>");
 
   EduVis.tool.load(
     { 
-      "name" : "<?php print $ev_tool['tool']['field_tool_name'];?>", 
+      "name" : "<?php print $ev_tool['tool']['field_tool_name'];?>",
       "tool_container_div": "vistool"
     }
   );
 
-}());
+}(EduVis));
 
 </script>
-
-

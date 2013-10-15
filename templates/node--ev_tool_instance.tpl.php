@@ -82,9 +82,8 @@
 
 $epe_ev_path = drupal_get_path('module', 'epe_ev');
 
-
+// include php file for epe_ev functions.
 include($_SERVER["DOCUMENT_ROOT"] . $GLOBALS["base_path"] . $epe_ev_path . "/inc/epe_ev_lib.php");
-
 
 // set path to EduVis framework
 $EduVis_path = $GLOBALS['base_url'] . '/'. $epe_ev_path .'/EduVis/';
@@ -92,10 +91,8 @@ $EduVis_path = $GLOBALS['base_url'] . '/'. $epe_ev_path .'/EduVis/';
 // add EduVis framework to page
 drupal_add_js( $EduVis_path . "EduVis.js" );
 
-
 // initialize the tool array
 $ev_tool = array();
-
 
 // dont show anythign in teaser mode
 if(!$teaser){
@@ -107,10 +104,17 @@ if(!$teaser){
   $ev_tool["tool"] = epe_getParentFieldValues( "field_parent_tool", array("field_tool_name"), $node );
 
 }
-    
-?>
 
-<article id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
+//
+//<article id="node-<?php print $node->nid; ?
+//>" class="<?php print $classes; ?
+//> clearfix"<?php print $attributes; ?
+//>>
+
+// get paths array
+$EduVis_Paths = epe_EduVis_Paths();
+
+?>
 
 <?php include 'viewpage.tpl.php' ?>
 
@@ -126,18 +130,17 @@ if(!$teaser){
   </div>
 </div>
 
-</article>
+<!-- </article> -->
 
 <script type="text/javascript">
 
 (function(){
 
-  loadMenu();
-  
-  // dev notification for now.
-  alert("node--newer-1-ev_tool_instance.tpl.php");
-
-  EduVis.Environment.setPath("<?php print $EduVis_path; ?>");
+  EduVis.Environment.setPaths( 
+    '<?php echo $EduVis_Paths["EduVis"]["root"];?>', // eduvis
+    '<?php echo $EduVis_Paths["EduVis"]["tools"];?>', // tools
+    '<?php echo $EduVis_Paths["EduVis"]["resources"];?>' // resources
+  );
 
   EduVis.tool.load(
     { 
@@ -148,6 +151,7 @@ if(!$teaser){
               print $ev_tool["instance_configuration"] . "\n";
             else
               print "{}";
+          
           ?>
     }
   );
