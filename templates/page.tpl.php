@@ -1,15 +1,88 @@
 
+<style type="text/css">
+
+.login {
+  float: right;
+        clear: all;
+        padding-bottom: 11px;
+
+}
+
+.login ul {
+    list-style-type: none;
+      clear: all;
+
+}
+
+.login ul li {
+  float: left;
+    padding-left: 30px;
+}
+
+.login ul li a {
+    color: white;
+
+    text-decoration: none;
+}
+
+.search {
+  float: right;
+  clear: all;
+  padding: 0px;
+
+}
+
+.search input {
+  margin-bottom: 0px;
+}
+
+.search form {
+  margin-bottom: 0px;
+}
+
+
+</style>
+
+
+
+
 <div class="newwrapper">
         <div class="epeheader">
             <div class="bg">
                 <div class="inner">
                     <a href="<?php echo base_path() ?>"><img src="<?php echo base_path() . drupal_get_path('theme', 'bootstrap') ?>/images/logo.png" border="0" alt="OOI Ocean Education Portal" class="logo"></a>
                     <div class="searchandlogin">
-                        <div class="login"><?php if (!empty($secondary_nav)): ?>
-              <?php print render($secondary_nav); ?>
-            <?php endif; ?></div>
-                        <div class="search"><input type="text"></div>                      
+                        <div class="login">
+
+                          
+                        <?php if (user_is_logged_in()): ?>
+                          <ul>
+                            <li><a href="<?php echo base_path() ?>user">My Profile</a></li>
+                            <li><a href="<?php echo base_path() ?>user/logout">Logout</a></li>
+                          </ul>
+                        <?php else: ?>
+                          <ul>
+                            <li><a href="<?php echo base_path() ?>user/register">Sign Up</a></li>
+                            <li><a href="<?php echo base_path() ?>user">Log In</a></li>
+                          </ul>
+                        <?php endif; ?>
+
+
+                        </div>
+                        <div style="clear:both;"></div>
+
+<script type="text/javascript">
+function doSearch() {
+  document.location = '<?php echo base_path() ?>resource-browser#/search/' + document.getElementById('searchCriteria').value;
+
+}
+</script>
+
+                        <div class="search"><form action="./" onsubmit="doSearch();return false;"><input id="searchCriteria" type="text" placeholder="Search"></form></div>                      
                     </div>
+
+
+
                     <div class="topnav">
       <?php 
       $block = module_invoke('epe_wp', 'block_view', 'epe_wp_top_menu_links');
@@ -35,7 +108,7 @@
       print drupal_render($block['content']);
       ?>
 
-      
+      <div style="float:right;padding-top:10px;"><a href="<?php echo base_path() ?>help">Help</a></div>
     </div>
   </div>
 </header>

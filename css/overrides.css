@@ -68,6 +68,7 @@ body.toolbar {
 
 .searchandlogin {
     float: right;
+    margin-top: 32px;
 }
 
 .navbar {
