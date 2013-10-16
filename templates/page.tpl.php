@@ -107,8 +107,7 @@ function doSearch() {
       $block = module_invoke('menu_block', 'block_view', '1');
       print drupal_render($block['content']);
       ?>
-
-      <div style="float:right;padding-top:10px;"><a href="<?php echo base_path() ?>help">Help</a></div>
+      <div class="help-link"><a href="<?php echo base_path() ?>help">Help</a></div>
     </div>
   </div>
 </header>
@@ -169,6 +168,14 @@ function doSearch() {
 
         <div class="push"></div>
 </div>
-<div class="ffooter">
-  <?php print render($page['footer']); ?>
+<div class="epe-footer">
+  <?php //print render($page['footer']); ?>
+
+  <div class="inner" style="padding-top:20px;">
+    <div class="disclaimer-block">Funding for the Ocean Observatories Initiative is provided by the National Science Foundation through a Cooperative Agreement with the Consortium for Ocean Leadership. The OOI Program Implementing Organizations are funded through sub-awards from the Consortium for Ocean Leadership. </div>
+
+    <div class="logo-block"><a href="http://www.nsf.gov/"><img src="<?php echo base_path() . drupal_get_path('theme', 'bootstrap') ?>/images/nsf_logo.png" border="0" alt="National Science Foundation" class="logo" align="right"></a><div>&copy; 2013 OOI - All Rights Reserved<br><a href="<?php echo base_path() ?>contact">Contact the OOI EPE Team</a></div></div>
+                      
+  </div>
+
 </div>
