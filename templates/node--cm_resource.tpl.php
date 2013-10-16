@@ -47,7 +47,7 @@ function loadFlash() {
   flashvars.USERSTATUS = '1';
   flashvars.OOI = 'true';
   flashvars.BUILDER = 'false';
-  flashvars.RESOURCEDETAILSURL = 'http://www.resourcedetailsurl.com';
+  flashvars.RESOURCEDETAILSURL = '<?php echo base_path() ?>?nodelookup=';
   flashvars.PHPPROXY = '<?php echo base_path() . drupal_get_path('module', 'epe_cm') . '/php/RetrieveOWL.php' ?>';
   flashvars.OWLPATH = '<?php echo base_path() . drupal_get_path('module', 'epe_cm') . '/owl/ioos/' ?>';
 
@@ -56,7 +56,7 @@ function loadFlash() {
   var attributes = { id: 'conceptMapBuilderViewer', name: 'conceptMapBuilderViewer' };
   
   // this line is unchanged from the mwsci website
-  swfobject.embedSWF('<?php echo base_path() . drupal_get_path('module', 'epe_cm') ?>/swf/CMV_15_20131014_2050.swf', 'flashcontent', '100%', '700', '9', 'expressInstall.swf', flashvars, params, attributes);
+  swfobject.embedSWF('<?php echo base_path() . drupal_get_path('module', 'epe_cm') ?>/swf/CMV_15_20131015_1748.swf', 'flashcontent', '100%', '700', '9', 'expressInstall.swf', flashvars, params, attributes);
   
   return;
 }
