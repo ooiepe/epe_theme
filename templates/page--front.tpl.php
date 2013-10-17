@@ -54,7 +54,7 @@
                     <div class="searchandlogin">
                         <div class="login">
 
-                          
+
                         <?php if (user_is_logged_in()): ?>
                           <ul>
                             <li><a href="<?php echo base_path() ?>user">My Profile</a></li>
@@ -78,13 +78,13 @@ function doSearch() {
 }
 </script>
 
-                        <div class="search"><form action="./" onsubmit="doSearch();return false;"><input id="searchCriteria" type="text" placeholder="Search"></form></div>                      
+                        <div class="search"><form action="./" onsubmit="doSearch();return false;"><input id="searchCriteria" type="text" placeholder="Search"></form></div>
                     </div>
 
 
 
                     <div class="topnav">
-      <?php 
+      <?php
       $block = module_invoke('epe_wp', 'block_view', 'epe_wp_top_menu_links');
       print $block['content'];
       ?>
@@ -103,7 +103,7 @@ function doSearch() {
         <span class="icon-bar"></span>
       </a>
 
-      <?php 
+      <?php
       $block = module_invoke('menu_block', 'block_view', '1');
       print drupal_render($block['content']);
       ?>
@@ -128,9 +128,9 @@ function doSearch() {
       <aside class="span3" role="complementary">
         <?php print render($page['sidebar_first']); ?>
       </aside>  <!-- /#sidebar-first -->
-    <?php endif; ?>  
+    <?php endif; ?>
 
-    <section class="<?php print _bootstrap_content_span($columns); ?>">  
+    <section class="<?php print _bootstrap_content_span($columns); ?>">
       <?php if (!empty($page['highlighted'])): ?>
         <div class="highlighted hero-unit"><?php print render($page['highlighted']); ?></div>
       <?php endif; ?>
@@ -138,9 +138,9 @@ function doSearch() {
       <?php //if (!empty($breadcrumb)): print $breadcrumb; endif;?>
       <a id="main-content"></a>
       <?php print render($title_prefix); ?>
-      <?php if (!empty($title)): ?>
+      <?php /*if (!empty($title)): ?>
         <h1 class="page-header"><?php print $title; ?></h1>
-      <?php endif; ?>
+      <?php endif;*/ ?>
       <?php print render($title_suffix); ?>
       <?php print $messages; ?>
       <?php if (!empty($tabs)): ?>
@@ -154,7 +154,57 @@ function doSearch() {
       <?php if (!empty($action_links)): ?>
         <ul class="action-links"><?php print render($action_links); ?></ul>
       <?php endif; ?>
-      <?php print render($page['content']); ?>
+      <?php //print render($page['content']); ?>
+      <div class="content">
+
+      <div class="control-group">
+        <div class="span6">
+        <?php echo file_get_contents(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/main.html'); ?>
+        </div>
+        <div class="span5">
+        <?php if(file_exists(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/carousel.json')): ?>
+          <?php $carousel = json_decode(file_get_contents(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/carousel.json')); ?>
+
+<div id="this-carousel-id" class="carousel slide pull-right"><!-- class of slide for animation -->
+  <div class="carousel-inner">
+    <?php foreach($carousel as $key=>$slide): ?>
+    <?php $slideclasses = array('item'); ?>
+    <?php if($key == 0): array_push($slideclasses, "active"); endif; ?>
+    <div class="<?php echo implode(' ', $slideclasses); ?>">
+      <img src="<?php echo drupal_get_path('theme','bootstrap') . '/templates/content/homepage/images/' . $slide->image; ?>" />
+      <?php if(isset($slide->caption) && $slide->caption != ''): ?>
+      <div class="carousel-caption">
+        <p><?php echo $slide->caption; ?></p>
+      </div>
+      <?php endif; ?>
+    </div>
+    <?php endforeach; ?>
+  </div><!-- /.carousel-inner -->
+  <!--  Next and Previous controls below
+        href values must reference the id for this carousel -->
+    <a class="carousel-control left" href="#this-carousel-id" data-slide="prev">&lsaquo;</a>
+    <a class="carousel-control right" href="#this-carousel-id" data-slide="next">&rsaquo;</a>
+</div><!-- /.carousel -->
+
+        <?php endif; ?>
+
+        </div>
+      </div>
+
+      <div class="control-group">
+        <div class="span4">
+<?php echo file_get_contents(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/block-left.html'); ?>
+        </div>
+        <div class="span4">
+<?php echo file_get_contents(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/block-center.html'); ?>
+        </div>
+        <div class="span4">
+<?php echo file_get_contents(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/block-right.html'); ?>
+        </div>
+      </div>
+
+    </div> <!-- /.content -->
+
     </section>
 
     <?php if (!empty($page['sidebar_second'])): ?>
@@ -175,7 +225,7 @@ function doSearch() {
     <div class="disclaimer-block">Funding for the Ocean Observatories Initiative is provided by the National Science Foundation through a Cooperative Agreement with the Consortium for Ocean Leadership. The OOI Program Implementing Organizations are funded through sub-awards from the Consortium for Ocean Leadership. </div>
 
     <div class="logo-block"><a href="http://www.nsf.gov/"><img src="<?php echo base_path() . drupal_get_path('theme', 'bootstrap') ?>/images/nsf_logo.png" border="0" alt="National Science Foundation" class="logo" align="right"></a><div>&copy; 2013 OOI - All Rights Reserved<br><a href="<?php echo base_path() ?>contact">Contact the OOI EPE Team</a></div></div>
-                      
+
   </div>
 
 </div>

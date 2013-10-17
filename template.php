@@ -44,6 +44,11 @@ function bootstrap_theme(&$existing, $type, $theme, $path) {
   }
   
   return array(
+    'contact_site_form' => array(
+      'render element' => 'form',
+        'path' => drupal_get_path('theme', 'bootstrap') . '/templates',
+        'template' => 'contact-site-form',
+    ),
     'bootstrap_links' => array(
       'variables' => array(
         'links' => array(),
@@ -324,6 +329,8 @@ function bootstrap_bootstrap_search_form_wrapper(&$variables) {
  }
 
 
-
+function bootstrap_preprocess_html(&$variables) {
+  drupal_add_js(array('epe'=>array('base_path'=>base_path())),'setting');
+}
 
 

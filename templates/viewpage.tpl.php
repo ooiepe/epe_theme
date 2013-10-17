@@ -23,6 +23,17 @@ if (!isset($hideActionButtons)) {
  $hideActionButtons = 0;
 }
 
+$hasAccess_Feature = 0;
+if ($isDBFiles == 0) {
+  if ($router_item = menu_get_item("node/" . $node -> nid . "/feature/")) {
+    if ($router_item['access']) {
+      $hasAccess_Feature = 1;
+    }
+  }
+}
+
+
+
 $hasAccess_Clone = 0;
 if ($isDBFiles == 0) {
   if ($router_item = menu_get_item("node/" . $node -> nid . "/clone/")) {
@@ -94,6 +105,12 @@ $field_public_status = 'Private';
 if (!empty($node->field_public_status['und'][0]['value'])) {
   $field_public_status = $node->field_public_status['und'][0]['value'];
 }
+
+$field_featured_status = 'Not-Featured';
+if (!empty($node->field_featured_status['und'][0]['value'])) {
+  $field_featured_status = $node->field_featured_status['und'][0]['value'];
+}
+
 
 ?>
 
@@ -234,6 +251,10 @@ if (!empty($node->field_public_status['und'][0]['value'])) {
     <li><a href="#" class="links share popover-link" id="share-btn">SHARE</a></li>
 <?php endif; ?>
 
+<?php if ($hasAccess_Feature == 1 && $field_public_status == 'Public'): ?>
+    <li><a href="#" class="links share popover-link" id="feature-btn">FEATURE</a></li>
+<?php endif; ?>
+
   </ul>
 </div>
 
@@ -282,6 +303,16 @@ function loadMenu() {
 <?php elseif ($field_public_status == 'Public' && $hasAccess_Publish == 1): ?>
       $('#publish-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closePublishConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'This resource is visible in the public database.<br><br>You may withdraw this item from review at any time.<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/unsubmitpublic/">Unpublish</a></div><br>Note: Others may be using your resource and care should be taken when Unpublishing.</div>'});
 <?php endif; ?>
+
+
+<?php if ($node->status == 1 && $field_public_status == 'Public' && $hasAccess_Feature == 1): ?>
+  <?php if ($field_featured_status == 'Featured'): ?>
+        $('#feature-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeFeatureConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'This resource is currently featured.<br><br>You may unfeature this item at any time.<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/unfeature/">Unfeature</a></div><br>Note: Others may be using this resource and care should be taken when Unfeaturing.</div>'});
+  <?php else: ?>
+        $('#feature-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeFeatureConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'Do you wish to feature this resource?<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/feature/">Yes</a>&nbsp;&nbsp;<button onclick="closeFeatureConfirm();" class="btn">No</button></div>'});
+  <?php endif; ?>
+<?php endif; ?>
+
 
 
 $('body').on('click', function (e) {
