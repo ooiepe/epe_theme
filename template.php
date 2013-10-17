@@ -329,6 +329,8 @@ function bootstrap_bootstrap_search_form_wrapper(&$variables) {
  }
 
 
-
+function bootstrap_preprocess_html(&$variables) {
+  drupal_add_js(array('epe'=>array('base_path'=>base_path())),'setting');
+}
 
 
