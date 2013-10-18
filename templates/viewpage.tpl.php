@@ -185,7 +185,7 @@ if (!empty($node->field_featured_status['und'][0]['value'])) {
 
 }
 
-#comments .form-item-subject, #comments #edit-preview, #comments .form-type-item {
+#comments .form-item-subject, #comments #edit-preview, #comments .form-type-item, #comment-form .form-item-subject, #comment-form #edit-preview, #comment-form .form-type-item {
   display: none;
 }
 
@@ -340,6 +340,9 @@ function closeShareConfirm() {
 }
 function closePublishConfirm() {
   jQuery('#publish-btn').popover('hide');
+}
+function closeFeatureConfirm() {
+  jQuery('#feature-btn').popover('hide');
 }
 
 
