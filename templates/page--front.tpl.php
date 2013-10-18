@@ -205,6 +205,16 @@ function doSearch() {
 
     </div> <!-- /.content -->
 
+    <div class="control-group">
+      <div class="span12">
+      <?php
+        $block = module_invoke('epe_wp','block_view','epe_db_featured');
+        echo render($block['title']);
+        echo render($block['content']);
+      ?>
+      </div>
+    </div>
+
     </section>
 
     <?php if (!empty($page['sidebar_second'])): ?>
