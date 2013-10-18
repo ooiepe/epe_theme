@@ -44,6 +44,26 @@ function bootstrap_theme(&$existing, $type, $theme, $path) {
   }
   
   return array(
+    'user_login' => array(
+      'render element' => 'form',
+        'path' => drupal_get_path('theme', 'bootstrap') . '/templates',
+        'template' => 'user-login-form',
+    ),
+    'user_pass' => array(
+      'render element' => 'form',
+        'path' => drupal_get_path('theme', 'bootstrap') . '/templates',
+        'template' => 'user-pass-form',
+    ),
+    'user_profile_form' => array(
+      'render element' => 'form',
+        'path' => drupal_get_path('theme', 'bootstrap') . '/templates',
+        'template' => 'user-profile-form',
+    ),
+    'user_register_form' => array(
+      'render element' => 'form',
+        'path' => drupal_get_path('theme', 'bootstrap') . '/templates',
+        'template' => 'user-register-form',
+    ),
     'contact_site_form' => array(
       'render element' => 'form',
         'path' => drupal_get_path('theme', 'bootstrap') . '/templates',
