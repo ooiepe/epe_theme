@@ -262,9 +262,14 @@ function bootstrap_preprocess_node(&$variables) {
     $variables['submitted'] = t('NOTSubmitted by !username on !datetime', array('!username' => $variables['name'], '!datetime' => $variables['date']));
   }
 
-  if ($variables['teaser']) {
+  if($variables['teaser'] || $variables['view_mode'] == 'teaser') {
     $variables['theme_hook_suggestions'][] = 'node__' . $variables['node']->type . '__teaser';
     $variables['theme_hook_suggestions'][] = 'node__' . $variables['node']->nid . '__teaser';
+  }
+
+  if($variables['view_mode'] == 'llb_instructor') {
+    $variables['theme_hook_suggestions'][] = 'node__' . $variables['node']->type . '__llb_instructor';
+    $variables['theme_hook_suggestions'][] = 'node__' . $variables['node']->nid . '__llb_instructor';
   }
 }
 
