@@ -1,49 +1,4 @@
 
-<style type="text/css">
-
-.login {
-  float: right;
-        clear: all;
-        padding-bottom: 11px;
-
-}
-
-.login ul {
-    list-style-type: none;
-      clear: all;
-
-}
-
-.login ul li {
-  float: left;
-    padding-left: 30px;
-}
-
-.login ul li a {
-    color: white;
-
-    text-decoration: none;
-}
-
-.search {
-  float: right;
-  clear: all;
-  padding: 0px;
-
-}
-
-.search input {
-  margin-bottom: 0px;
-}
-
-.search form {
-  margin-bottom: 0px;
-}
-
-
-</style>
-
-
 
 
 <div class="newwrapper">
@@ -155,55 +110,145 @@ function doSearch() {
         <ul class="action-links"><?php print render($action_links); ?></ul>
       <?php endif; ?>
       <?php //print render($page['content']); ?>
-      <div class="content">
 
-      <div class="control-group">
-        <div class="span6">
-        <?php echo file_get_contents(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/main.html'); ?>
-        </div>
-        <div class="span5">
-        <?php if(file_exists(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/carousel.json')): ?>
-          <?php $carousel = json_decode(file_get_contents(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/carousel.json')); ?>
 
-<div id="this-carousel-id" class="carousel slide pull-right"><!-- class of slide for animation -->
-  <div class="carousel-inner">
-    <?php foreach($carousel as $key=>$slide): ?>
-    <?php $slideclasses = array('item'); ?>
-    <?php if($key == 0): array_push($slideclasses, "active"); endif; ?>
-    <div class="<?php echo implode(' ', $slideclasses); ?>">
-      <img src="<?php echo drupal_get_path('theme','bootstrap') . '/templates/content/homepage/images/' . $slide->image; ?>" />
-      <?php if(isset($slide->caption) && $slide->caption != ''): ?>
-      <div class="carousel-caption">
-        <p><?php echo $slide->caption; ?></p>
-      </div>
+<div id="home-content" class="content">
+  <div id="welcome-rotator">
+    <div id="welcome"><?php echo file_get_contents(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/main.html'); ?></div>
+    <div id="rotator">
+      <?php if(file_exists(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/carousel.json')): ?>
+        <?php $carousel = json_decode(file_get_contents(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/carousel.json')); ?>
+        <div id="epe-home-carousel" class="carousel slide pull-right"><!-- class of slide for animation -->
+          <div class="carousel-inner">
+            <?php foreach($carousel as $key=>$slide): ?>
+              <?php $slideclasses = array('item'); ?>
+              <?php if($key == 0): array_push($slideclasses, "active"); endif; ?>
+              <div class="<?php echo implode(' ', $slideclasses); ?>">
+                <img src="<?php echo drupal_get_path('theme','bootstrap') . '/templates/content/homepage/images/' . $slide->image; ?>" />
+                <?php if(isset($slide->caption) && $slide->caption != ''): ?>
+                  <div class="carousel-caption">
+                    <p><?php echo $slide->caption; ?></p>
+                  </div>
+                <?php endif; ?>
+              </div>
+            <?php endforeach; ?>
+          </div><!-- /.carousel-inner -->
+          <!--  Next and Previous controls below href values must reference the id for this carousel -->
+          <a class="carousel-control left" href="#epe-home-carousel" data-slide="prev">&lsaquo;</a>
+          <a class="carousel-control right" href="#epe-home-carousel" data-slide="next">&rsaquo;</a>
+          <ol class="carousel-indicators">
+          <?php foreach($carousel as $key=>$slide): ?>
+          <li data-target="#epe-home-carousel" data-slide-to="<?php echo $key; ?>" <?php if($key == 0): echo 'class="active"'; endif; ?>></li>
+          <?php endforeach; ?>
+          </ol>
+        </div><!-- /.carousel -->
       <?php endif; ?>
     </div>
-    <?php endforeach; ?>
-  </div><!-- /.carousel-inner -->
-  <!--  Next and Previous controls below
-        href values must reference the id for this carousel -->
-    <a class="carousel-control left" href="#this-carousel-id" data-slide="prev">&lsaquo;</a>
-    <a class="carousel-control right" href="#this-carousel-id" data-slide="next">&rsaquo;</a>
-</div><!-- /.carousel -->
+    <br style="clear:both;">
+  </div> <!-- /welcome-rotator -->
 
-        <?php endif; ?>
+  <div id="tool-intros" class="control-group">
+    <div class="span4">
+    <?php echo file_get_contents(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/block-left.html'); ?>
+    </div>
+    <div class="span4">
+    <?php echo file_get_contents(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/block-center.html'); ?>
+    </div>
+    <div class="span4">
+    <?php echo file_get_contents(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/block-right.html'); ?>
+    </div>
+  </div>
+  <br style="clear:both;">
+</div> <!-- /.content -->
 
-        </div>
-      </div>
+<style type="text/css">
+#home-featured {
+  padding: 14px 10px 60px 10px;
 
-      <div class="control-group">
-        <div class="span4">
-<?php echo file_get_contents(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/block-left.html'); ?>
-        </div>
-        <div class="span4">
-<?php echo file_get_contents(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/block-center.html'); ?>
-        </div>
-        <div class="span4">
-<?php echo file_get_contents(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/block-right.html'); ?>
-        </div>
-      </div>
+}
+#home-featured h2 {
+  font-size: 24px;
+  font-weight: normal;
+}
+#home-featured ul {
+  list-style: none;
+  margin: 32px 0 0 0;
+}
+#home-featured ul li {
+  float: left;
+  width: 195px;
+  border-left: 1px solid #cadfe7;
+  padding-left: 31px;
+  margin-left: 30px;
+  height: 100%;
+}
 
-    </div> <!-- /.content -->
+#home-featured ul li.first {
+  padding-left: 0px;
+  margin-left: 0px;
+  border-left: none;
+}
+
+
+#home-featured ul li img {
+  border: 2px solid #0884b3;
+}
+
+#home-featured ul li .title {
+  font-weight: bold;
+  color: #277d9d;
+  padding-top: 14px;
+  line-height: 16px;
+}
+#home-featured ul li .author {
+  font-weight: bold;
+  margin-top: -4px;
+}
+
+#home-featured ul li .summary {
+  padding-top: 13px;
+  font-size: 13px;
+  line-height: 16px;
+  height: 100px;
+  overflow: hidden;
+}
+
+
+</style>
+
+<div id="home-featured">
+  <h2>Featured Resources</h2>
+  <ul>
+    <li class="first">
+      <a href=""><img src="<?php echo base_path() . path_to_theme() ?>/images/sample_thumb_1.jpg" width="190" height="141"></a>
+      <div class="title">Sandy Wave Heights and Wind Speed</div>      
+      <div class="author">by Sage Lichtenwalner</div>      
+      <div class="summary">Suspendisse potenti. Donec ac tempus velit.Suspendisse potenti. Donec ac tempus velit.Suspendisse potenti. Donec ac tempus velit.Suspendisse potenti. Donec ac tempus velit. </div>      
+    </li>
+    <li>
+      <a href=""><img src="<?php echo base_path() . path_to_theme() ?>/images/sample_thumb_2.jpg" width="190" height="141"></a>
+      <div class="title">RU23 - Hurricane Sandy</div>      
+      <div class="author">by Sage Lichtenwalner</div>      
+      <div class="summary">Pellentesque potenti. Donec ac tempus velit. </div>      
+    </li>
+    <li>
+      <a href=""><img src="<?php echo base_path() . path_to_theme() ?>/images/sample_thumb_3.jpg" width="190" height="141"></a>
+      <div class="title">Title of the item</div>      
+      <div class="author">by Joe Wieclawek</div>      
+      <div class="summary">Suspendisse potenti. Donec ac tempus velit. </div>      
+    </li>
+    <li>
+      <a href=""><img src="<?php echo base_path() . path_to_theme() ?>/images/sample_thumb_4.jpg" width="190" height="141"></a>
+      <div class="title">Title of the item</div>      
+      <div class="author">by Joe Wieclawek</div>      
+      <div class="summary">Suspendisse potenti. Donec ac tempus velit. </div>      
+    </li>
+  </ul>
+  <br clear="all">
+</div>
+
+
+
 
     <div class="control-group">
       <div class="span12">
