@@ -252,11 +252,14 @@ function doSearch() {
 
     <div class="control-group">
       <div class="span12">
+        <div id="tool-featured">
       <?php
         $block = module_invoke('epe_wp','block_view','epe_db_featured');
         echo render($block['title']);
         echo render($block['content']);
       ?>
+        <br clear="all">
+        </div>
       </div>
     </div>
 
