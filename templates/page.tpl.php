@@ -1,48 +1,4 @@
 
-<style type="text/css">
-
-.login {
-  float: right;
-        clear: all;
-        padding-bottom: 11px;
-
-}
-
-.login ul {
-    list-style-type: none;
-      clear: all;
-
-}
-
-.login ul li {
-  float: left;
-    padding-left: 30px;
-}
-
-.login ul li a {
-    color: white;
-
-    text-decoration: none;
-}
-
-.search {
-  float: right;
-  clear: all;
-  padding: 0px;
-
-}
-
-.search input {
-  margin-bottom: 0px;
-}
-
-.search form {
-  margin-bottom: 0px;
-}
-
-
-</style>
-
 
 
 
