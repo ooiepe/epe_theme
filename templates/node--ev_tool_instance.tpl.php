@@ -9,14 +9,21 @@
   // initialize the tool array
   $ev_tool = array();
 
-  // dont show anythign in teaser mode
+  // dont show anything in teaser mode... conditional still necessary?
   if(!$teaser){
     
     // get the configuration from the instance node
     $ev_tool["instance_configuration"] = epe_getFieldValue( "field_instance_configuration", $node );
 
+    $ev_tool["parent_tool_id"] = epe_getFieldValue( "field_parent_tool", $node );
+
+    $parentNode = node_load($ev_tool["parent_tool_id"]);
+
+    $ev_tool["tool"] = epe_getNodeValues( array("field_tool_name"), $parentNode);
+
     // get the tool details (name, path_css, path_js) from the instance parent reference "field_parent_tool"
-    $ev_tool["tool"] = epe_getParentFieldValues( "field_parent_tool", array("field_tool_name"), $node );
+    //$ev_tool["tool"] = epe_getParentFieldValues( "field_parent_tool", array("field_tool_name"), $node );
+    // get current toolid
 
   }
 
@@ -62,7 +69,7 @@
 
   function svgToCanvas(){
 
-    //load a svg snippet in the canvas'
+    //load an svg snippet in the canvas
     canvg(
       document.getElementById('canvas'),
       $('<div>').append($("#vistool svg").clone()).html(), // hack to pull html contents
@@ -100,12 +107,13 @@
 
   // tool buttons
 
-  $("#tool-function-export-image").on("click", function(){
+  $("#tool-function-export-image")
+    .on("click", function(){
 
-    svgToCanvas();
-    canvasToImage();
+      svgToCanvas();
+      canvasToImage();
 
-  });
+    });
 
 }());
 
