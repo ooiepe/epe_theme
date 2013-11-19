@@ -47,7 +47,7 @@ function loadFlash() {
   flashvars.USERSTATUS = '1';
   flashvars.OOI = 'true';
   flashvars.BUILDER = 'false';
-  flashvars.RESOURCEDETAILSURL = '<?php echo base_path() ?>?nodelookup=';
+  flashvars.RESOURCEDETAILSURL = '<?php echo base_path() ?>api/resource/lookup?xml=';
   flashvars.PHPPROXY = '<?php echo base_path() . drupal_get_path('module', 'epe_cm') . '/php/RetrieveOWL.php' ?>';
   flashvars.OWLPATH = '<?php echo base_path() . drupal_get_path('module', 'epe_cm') . '/owl/ioos/' ?>';
 
