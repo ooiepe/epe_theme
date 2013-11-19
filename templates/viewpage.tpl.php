@@ -61,14 +61,14 @@ if ($router_item = menu_get_item("node/" . $node -> nid . "/delete/")) {
 if ($isDBFiles == 1) {
 
   $hasAccess_Publish = 0;
-  if ($router_item = menu_get_item("resource/file/" . $node -> nid . "/edit/")) {
+  if ($router_item = menu_get_item("node/" . $node -> nid . "/edit/")) {
     if ($router_item['access']) {
       $hasAccess_Publish = 1;
     }
   }
 
   $hasAccess_Share = 0;
-  if ($router_item = menu_get_item("resource/file/" . $node -> nid . "/edit/")) {
+  if ($router_item = menu_get_item("node/" . $node -> nid . "/edit/")) {
     if ($router_item['access']) {
       $hasAccess_Share = 1;
     }
