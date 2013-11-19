@@ -29,7 +29,8 @@
   <?php print drupal_render_children($form) ?>
 
   <br><br><br>
-  <a href="<?php echo base_path() ?>user/password">Request new password</a>
+  <a href="<?php echo base_path() ?>user/register">Not registered? Sign up now!</a><br><br>
+  <a href="<?php echo base_path() ?>user/password">Request new password</a><br>
 
 </div>
 </div>
