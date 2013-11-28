@@ -61,12 +61,13 @@ h4 {
   padding-bottom: 10px;
 }
 
-
-
+td img { max-width: 133px; }
+td.views-field-php-1 { width: 140px; }
+td.views-field-body { width: 570px; }
 </style>
 
 
-<?php 
+<?php
 
 $profile_visibility = 'Private';
 if (isset($user_profile['field_account_country']['#object']->field_account_profile_visibility['und'][0]['value'])) {
@@ -124,7 +125,7 @@ if ($account->uid != $user->uid) {
 <div style="border: 1px solid #0195bd;background-color: #fff;padding:20px 31px;">
 
 
-<?php 
+<?php
 
     if ($profile_visibility == 'Private' && $hasAccess_Edit == 0) {
       print 'This user has chosen to keep their profile private.';
@@ -157,8 +158,13 @@ if ($account->uid != $user->uid) {
 
  ?>
 
+<?php
+  if(module_exists('epe_wp')) {
+    echo views_embed_view('user_resources',$display_id='public');
+  }
+?>
 
-	
+
 </div>
 </div>
 
