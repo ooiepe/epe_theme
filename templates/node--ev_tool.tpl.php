@@ -32,6 +32,77 @@
     </div>
   </div>
 
+<?php
+
+$query = new EntityFieldQuery();
+$query->entityCondition('entity_type', 'node')
+  ->propertyCondition('type', array('ev_tool_instance'))
+  ->propertyCondition('status', 1)
+  ->propertyOrderBy('created', 'DESC')
+  ->fieldCondition('field_parent_tool', 'value', $node->nid, '=')
+  ->range(0, 10);
+
+$result = $query->execute();
+
+// are there any instances
+if(count($result)>0){
+
+?>
+  <div class="container-fluid" style="margin-bottom:150px">
+    <div class="row-fluid">
+      
+      <div class="resource-title"> Published Instances </div>
+      <div class="thumbnails">
+  
+<?php
+
+  $nids = array_keys($result['node']);
+  $nodes = node_load_multiple($nids);
+
+  foreach($nodes as $instance_node){
+
+    //print_r($instance_node->body);
+?>
+    <div class="span6 thumbnail">
+      
+      <div class="row-fluid">
+        <div class="span4">
+          <?php echo render(field_view_field('node',$instance_node, 'field_instance_thumbnail', 
+            array('label'=>'hidden','settings' => array('image_style' => 'medium'))));
+          ?>
+        </div>
+        <div class="span8">
+          <div>
+            <b>Title:</b> <a href="../node/<?php echo $instance_node->nid;?>"><?php echo $instance_node->title;?></a></div>
+          <div>
+            <?php echo render(field_view_field('node',$instance_node, 'body',array(
+                'type' => 'text_summary_or_trimmed', 
+                'settings'=>array('trim_length' => 150)
+                )));
+            ?>
+          </div>
+          <div>
+            <a class="btn" href="../node/<?php echo $instance_node->nid;?>">Preview</a> 
+            <a class="btn" href="../node/<?php echo $instance_node->nid;?>/clone">Copy</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<?php
+
+  }
+?>
+
+        </div>
+    </div>
+  </div>
+
+<?php
+}
+
+?>
+
 </article>
 
 <script type="text/javascript">
