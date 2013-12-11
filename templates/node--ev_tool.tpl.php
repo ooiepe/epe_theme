@@ -37,9 +37,9 @@
 $query = new EntityFieldQuery();
 $query->entityCondition('entity_type', 'node')
   ->propertyCondition('type', array('ev_tool_instance'))
-  ->propertyCondition('status', 1)
   ->propertyOrderBy('created', 'DESC')
   ->fieldCondition('field_parent_tool', 'value', $node->nid, '=')
+  ->fieldCondition('field_public_status', 'value', 'Public')
   ->range(0, 10);
 
 $result = $query->execute();
@@ -58,32 +58,38 @@ if(count($result)>0){
 
   $nids = array_keys($result['node']);
   $nodes = node_load_multiple($nids);
+  $node_count = 0;
+  foreach($nodes as $id => $instance_node){
 
-  foreach($nodes as $instance_node){
-
+    $styleOut="";
+    $node_count++;
+    if($node_count%2!=0){
+      $styleOut = 'margin-left:0 !important;"';
+    }
     //print_r($instance_node->body);
 ?>
-    <div class="span6 thumbnail">
+    <div class="span6 thumbnail" style="margin-top:6px;<?php echo $styleOut;?>">
       
       <div class="row-fluid">
-        <div class="span4">
-          <?php echo render(field_view_field('node',$instance_node, 'field_instance_thumbnail', 
-            array('label'=>'hidden','settings' => array('image_style' => 'medium'))));
-          ?>
+        <div class="span5">
+          <a href="../node/<?php echo $instance_node->nid;?>">
+          <?php echo render(field_view_field('node',$instance_node, 'field_instance_thumbnail', array(
+              'label'=>'hidden',
+              'settings' => array('image_style' => 'medium')
+              )));
+          ?></a>
         </div>
-        <div class="span8">
+        <div class="span7">
           <div>
-            <b>Title:</b> <a href="../node/<?php echo $instance_node->nid;?>"><?php echo $instance_node->title;?></a></div>
+             <b><a href="../node/<?php echo $instance_node->nid;?>"><?php echo $instance_node->title;?></a></b>
+          </div>
           <div>
             <?php echo render(field_view_field('node',$instance_node, 'body',array(
+                'label' => 'hidden',
                 'type' => 'text_summary_or_trimmed', 
                 'settings'=>array('trim_length' => 150)
                 )));
             ?>
-          </div>
-          <div>
-            <a class="btn" href="../node/<?php echo $instance_node->nid;?>">Preview</a> 
-            <a class="btn" href="../node/<?php echo $instance_node->nid;?>/clone">Copy</a>
           </div>
         </div>
       </div>
