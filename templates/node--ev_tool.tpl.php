@@ -19,15 +19,21 @@
 
 <article id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
 
+  <div class="resource-links">
+    <ul>
+      <li><a href="../node/add/ev-tool-instance/?ev_toolid=<?php print $node->nid; ?>" class="links edit popover-link" title="Creative a Custom Visualization Instance.">CUSTOMIZE</a></li>
+    </ul>
+  </div>
+
   <?php 
     $hideActionButtons = 1;
-    include 'viewpage.tpl.php' 
+    include 'viewpage.tpl.php';
   ?>
 
   <div style="background-color: #c8d5de;padding:23px;margin-bottom:20px;">
     <div style="border: 1px solid #0195bd;background-color: #fff;padding:20px 31px;">
 
-      <div id="vistool"></div>
+      <div id="vistool" style="margin-bottom:20px;"></div>
 
     </div>
   </div>
