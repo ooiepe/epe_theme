@@ -39,10 +39,7 @@
 		<div class="welcome">
 			<h4>Welcome</h4>
 
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus egestas ac eros sit amet rutrum. Cras bibendum viverra elit, vel malesuada neque eleifend vitae. Quisque varius congue commodo. Nulla ultricies felis volutpat quam sollicitudin, ut blandit elit pretium. Morbi a pharetra quam. Phasellus ac felis turpis. Sed posuere enim ultrices, volutpat lorem eget, pellentesque elit. Cras et nibh a velit imperdiet tempor at non augue. Phasellus et sem at felis viverra suscipit. Nulla eu mauris rhoncus, volutpat diam nec, gravida tellus. Nulla libero ipsum, tincidunt vel tellus sit amet, semper gravida odio.</p>
-
-				<p>Vivamus vehicula fermentum imperdiet. Vestibulum erat risus, varius nec magna id, tempus rhoncus orci. Maecenas vel varius massa. Vivamus mattis luctus consequat. Maecenas urna lectus, eleifend at mauris eu, ultricies auctor purus. Aenean gravida purus at adipiscing suscipit. Donec varius interdum nulla at commodo.</p>
-
+				<p>This is the user registration page to create a new account. The form requires a username, email, and password (designated by you). To complete the process, you will need to enter the CAPTCHA phrase displayed at bottom. This precaution is employed to prevent automated spam submissions.</p><p>Having an account will allow you create new resources using the site&rsquo;s tools (i.e., data visualizers, concept map and lesson builders). You will also be able to upload some types of resources from your own computer. All of these will items will remain private unless you elect to publish them. &nbsp;</p><p>After being reviewed and approved by moderator, your published resources will display your &ldquo;Username&rdquo; and will be visible to anyone viewing that resource. Registered users can comment on all published resources.</p>
 		</div>
 	</div>
 
