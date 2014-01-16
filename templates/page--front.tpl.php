@@ -215,7 +215,7 @@ function doSearch() {
 
 
 </style>
-
+<!--
 <div id="home-featured">
   <h2>Featured Resources</h2>
   <ul>
@@ -246,7 +246,7 @@ function doSearch() {
   </ul>
   <br clear="all">
 </div>
-
+-->
 
 
 
