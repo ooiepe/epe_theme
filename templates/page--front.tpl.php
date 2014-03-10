@@ -210,8 +210,28 @@ function doSearch() {
   font-size: 13px;
   line-height: 16px;
   height: 100px;
+  position: relative;
   overflow: hidden;
 }
+
+
+#home-featured ul li .summary .after {
+    background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0), white);
+    background-image:    -moz-linear-gradient(rgba(255, 255, 255, 0), white);
+    background-image:     -ms-linear-gradient(rgba(255, 255, 255, 0), white);
+    background-image:      -o-linear-gradient(rgba(255, 255, 255, 0), white);
+    background-image:         linear-gradient(rgba(255, 255, 255, 0), white);
+    bottom: 0;
+    left: 0;
+    height: 20px;
+    position: absolute;
+    right: 0;
+}
+
+
+
+
+
 
 
 </style>
