@@ -6741,15 +6741,11 @@ body.toolbar {
 }
 
 
-
-
-
-
-
-
-
-
-
+.form-help {
+  float: right;
+  margin-top: -45px;
+  clear: both;
+}
 
 
 
