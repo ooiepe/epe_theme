@@ -170,6 +170,7 @@ if (!empty($node->field_featured_status['und'][0]['value'])) {
   font-weight: bold;
   font-size: 24px;
   padding-bottom: 10px;
+  line-height: 24px;
 }
 
 .resource-author {
