@@ -3,6 +3,22 @@
 <script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-popover.js"></script>
 
 
+<?php
+
+$user_data = user_load($node->uid);
+
+$user_name = $user_data->name;
+if (!empty($user_data->field_account_fname['und'][0]['value']) && !empty($user_data->field_account_lname['und'][0]['value'])) {
+  $user_name = $user_data->field_account_fname['und'][0]['value'] . " " . $user_data->field_account_lname['und'][0]['value'];
+} elseif (!empty($user_data->field_account_fname['und'][0]['value'])) {
+  $user_name = $user_data->field_account_fname['und'][0]['value'];
+} elseif (!empty($user_data->field_account_lname['und'][0]['value'])) {
+  $user_name = $user_data->field_account_lname['und'][0]['value'];
+}
+
+?>
+
+
 <style>
 .node-tabs, .action-links {
   display: none;
@@ -264,7 +280,7 @@ if (!empty($node->field_featured_status['und'][0]['value'])) {
 
 <div class="resource-heading">
   <div class="resource-title"><?php print $node -> title ?></div>
-  <div class="resource-author"><strong>Created by:</strong> <?php print $node -> name ?></div>
+  <div class="resource-author"><strong>Created by:</strong> <?php print $user_name ?></div>
   
   <?php if( !empty($node -> body) ): ?>
       <div class="resource-description"><?php print $node -> body['und'][0]['value'] ?> </div>
