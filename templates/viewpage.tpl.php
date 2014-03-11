@@ -30,13 +30,17 @@ if (!empty($user_data->field_account_fname['und'][0]['value']) && !empty($user_d
 
 </style>
 
-<?php 
+<?php
 
 if (!isset($isDBFiles)) {
  $isDBFiles = 0;
 }
 if (!isset($hideActionButtons)) {
  $hideActionButtons = 0;
+}
+
+if (!isset($showContent)) {
+ $showContent = true;
 }
 
 $hasAccess_Feature = 0;
@@ -281,8 +285,8 @@ if (!empty($node->field_featured_status['und'][0]['value'])) {
 <div class="resource-heading">
   <div class="resource-title"><?php print $node -> title ?></div>
   <div class="resource-author"><strong>Created by:</strong> <?php print $user_name ?></div>
-  
-  <?php if( !empty($node -> body) ): ?>
+
+  <?php if( !empty($node -> body) && $showContent ): ?>
       <div class="resource-description"><?php print $node -> body['und'][0]['value'] ?> </div>
   <?php endif; ?>
 
