@@ -39,11 +39,11 @@ $field_out = render($field_cm_data);
 
 function loadFlash() {
 
-  
+
   // from the microwave science website
-  var flashvars = {}; 
-  flashvars.USERNAME = 'sgraham'; 
-  flashvars.USERID = '4'; 
+  var flashvars = {};
+  flashvars.USERNAME = 'sgraham';
+  flashvars.USERID = '4';
   flashvars.USERSTATUS = '1';
   flashvars.OOI = 'true';
   flashvars.BUILDER = 'false';
@@ -54,15 +54,15 @@ function loadFlash() {
 
   var params = {};
   var attributes = { id: 'conceptMapBuilderViewer', name: 'conceptMapBuilderViewer' };
-  
+
   // this line is unchanged from the mwsci website
   swfobject.embedSWF('<?php echo base_path() . drupal_get_path('module', 'epe_cm') ?>/swf/CMV_15_20140114_1156.swf', 'flashcontent', '100%', '700', '9', 'expressInstall.swf', flashvars, params, attributes);
-  
+
   return;
 }
 
 function getXMLfromJS() {
-  
+
   // get the contents of the text area
   var xml = document.getElementById('conceptMapContents').value;
 
@@ -70,7 +70,7 @@ function getXMLfromJS() {
   var swf = document.getElementById('conceptMapBuilderViewer');
 
   //console.log(xml);
-  
+
   // call the load concept map function
   swf.jsToFlashImportMapData(xml);
   //swf.jsToFlashImportMapData('hello');
@@ -87,32 +87,32 @@ function doSave() {
   swf.getMapContents();
 
   return;
-  
+
 }
 
 function giveXMLtoJS(value) {
   // put those contents into the text field
   document.getElementById('conceptMapContents').value = value;
-  
+
   return;
-  
+
 }
 
 
 </script>
 
-<?php 
+<?php
   //var_dump($content);
-  
+
 //print __DIR__;
 
 //print_r($content);
-  
+
 ?>
 
 
-<div style="background-color: #c8d5de;padding:23px;margin-bottom:20px;">
-<div style="border: 1px solid #0195bd;background-color: #fff;padding:20px 31px;">
+<div style="background-color: #c8d5de;padding:23px;margin-bottom:20px;" class="clearfix">
+<div style="border: 1px solid #0195bd;background-color: #fff;padding:20px 31px;" class="clearfix">
 
 <div style="border-bottom: 2px solid #338ea9;margin-bottom: 10px;">
   <div id="flashcontent"><p>Please update your Flash Player</p></div>
@@ -138,16 +138,10 @@ function giveXMLtoJS(value) {
     </footer>
   <?php endif; ?>
 
-
-
-
-
-  <?php print render($content['comments']); ?>
-
-
 </div>
 </div>
 
+<?php print render($content['comments']); ?>
 
 </article> <!-- /.node -->
 

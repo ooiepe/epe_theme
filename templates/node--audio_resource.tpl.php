@@ -3,15 +3,15 @@
 
 
 
-<?php 
+<?php
 $isDBFiles = 1;
 include 'viewpage.tpl.php';
 ?>
 
 
 
-<div style="background-color: #c8d5de;padding:23px;margin-bottom:20px;">
-<div style="border: 1px solid #0195bd;background-color: #fff;padding:20px 31px;">
+<div style="background-color: #c8d5de;padding:23px;margin-bottom:20px;" class="clearfix">
+<div style="border: 1px solid #0195bd;background-color: #fff;padding:20px 31px;" class="clearfix">
 
 <style type="text/css">
 .field-label {
@@ -44,15 +44,10 @@ include 'viewpage.tpl.php';
   <?php endif; ?>
 
 
-
-
+</div>
+</div>
 
   <?php print render($content['comments']); ?>
-
-
-</div>
-</div>
-
 
 </article> <!-- /.node -->
 

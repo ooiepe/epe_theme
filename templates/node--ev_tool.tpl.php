@@ -8,7 +8,7 @@
 
   // initialize the tool array
   $ev_tool = array();
-   
+
   // get the tool details (name, path_css, path_js) from the instance parent reference "field_parent_tool"
   $ev_tool["tool"] = epe_getNodeValues( array("field_tool_name"), $node );
 
@@ -25,7 +25,7 @@
     </ul>
   </div>
 
-  <?php 
+  <?php
     $hideActionButtons = 1;
     include 'viewpage.tpl.php';
   ?>
@@ -56,10 +56,10 @@ if(count($result)>0){
 ?>
   <div class="container-fluid" style="margin-bottom:150px">
     <div class="row-fluid">
-      
+
       <div class="resource-title"> Published Instances </div>
       <div class="thumbnails">
-  
+
 <?php
 
   $nids = array_keys($result['node']);
@@ -75,7 +75,7 @@ if(count($result)>0){
     //print_r($instance_node->body);
 ?>
     <div class="span6 thumbnail" style="margin-top:6px;<?php echo $styleOut;?>">
-      
+
       <div class="row-fluid">
         <div class="span5">
           <a href="../node/<?php echo $instance_node->nid;?>">
@@ -92,7 +92,7 @@ if(count($result)>0){
           <div>
             <?php echo render(field_view_field('node',$instance_node, 'body',array(
                 'label' => 'hidden',
-                'type' => 'text_summary_or_trimmed', 
+                'type' => 'text_summary_or_trimmed',
                 'settings'=>array('trim_length' => 150)
                 )));
             ?>
@@ -121,7 +121,7 @@ if(count($result)>0){
 
   (function(EduVis){
 
-    EduVis.Environment.setPaths( 
+    EduVis.Environment.setPaths(
       '<?php echo $EduVis_Paths["EduVis"]["root"];?>', // eduvis
       '<?php echo $EduVis_Paths["EduVis"]["tools"];?>', // tools
       '<?php echo $EduVis_Paths["EduVis"]["resources"];?>' // resources
@@ -129,7 +129,7 @@ if(count($result)>0){
 
     // load EduVis tool into vistool container
     EduVis.tool.load(
-      { 
+      {
         "name" : "<?php print $ev_tool['tool']['field_tool_name'];?>",
         "tool_container_div": "vistool"
       }

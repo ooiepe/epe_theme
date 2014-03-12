@@ -11,7 +11,7 @@
 
   // dont show anything in teaser mode... conditional still necessary?
   if(!$teaser){
-    
+
     // get the configuration from the instance node
     $ev_tool["instance_configuration"] = epe_getFieldValue( "field_instance_configuration", $node );
 
@@ -41,17 +41,14 @@
 
   <?php include 'viewpage.tpl.php' ?>
 
-  <div style="background-color: #c8d5de;padding:23px;margin-bottom:20px;">
-    <div style="border: 1px solid #0195bd;background-color: #fff;padding:20px 31px;">
+  <div style="background-color: #c8d5de;padding:23px;margin-bottom:20px;" class="clearfix">
+    <div style="border: 1px solid #0195bd;background-color: #fff;padding:20px 31px;" class="clearfix">
 
       <div id="vistool"></div>
-      
+
       <div id="tool-functions">
         <button class="btn btn-primary" value="Export to Image" id="tool-function-export-image">Export to Image</button>
       </div>
-
-      <!-- comments -->
-      <?php print render($content['comments']); ?>
 
       <div style="display:none;">
         <canvas id="canvas"></canvas>
@@ -60,6 +57,8 @@
     </div>
 
   </div>
+
+<?php print render($content['comments']); ?>
 
 </article>
 
@@ -85,22 +84,22 @@
   }
 
   // set EduVis environment paths
-  EduVis.Environment.setPaths( 
+  EduVis.Environment.setPaths(
     '<?php echo $EduVis_Paths["EduVis"]["root"];?>', // eduvis
     '<?php echo $EduVis_Paths["EduVis"]["tools"];?>', // tools
     '<?php echo $EduVis_Paths["EduVis"]["resources"];?>' // resources
   );
 
   EduVis.tool.load(
-    { 
-      "name" : '<?php print $ev_tool['tool']['field_tool_name'];?>', 
+    {
+      "name" : '<?php print $ev_tool['tool']['field_tool_name'];?>',
       "tool_container_div": "vistool",
-      "instance_config": <?php 
+      "instance_config": <?php
             if(isset($ev_tool['instance_configuration']))
               print $ev_tool["instance_configuration"] . "\n";
             else
               print "{}";
-          
+
           ?>
     }
   );
