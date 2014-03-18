@@ -44,11 +44,9 @@ if (!isset($showContent)) {
 }
 
 $hasAccess_Feature = 0;
-if ($isDBFiles == 0) {
-  if ($router_item = menu_get_item("node/" . $node -> nid . "/feature/")) {
-    if ($router_item['access']) {
-      $hasAccess_Feature = 1;
-    }
+if ($router_item = menu_get_item("node/" . $node -> nid . "/feature/")) {
+  if ($router_item['access']) {
+    $hasAccess_Feature = 1;
   }
 }
 
