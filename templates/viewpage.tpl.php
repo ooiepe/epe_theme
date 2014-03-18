@@ -5,6 +5,17 @@
 
 <?php
 
+
+// determine if this resource is used in a concept map or lesson
+$results = db_select('resources_assoc', 'ra')
+             ->fields('ra', array('parent'))
+             ->condition('child', $node->nid)
+             ->execute();
+$isUsedByOtherResources = 0;
+if ($results->rowCount() > 0)
+  $isUsedByOtherResources = 1;
+
+
 $user_data = user_load($node->uid);
 
 $user_name = $user_data->name;
@@ -300,15 +311,18 @@ function loadMenu() {
     $('#edit-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeEditConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'Your resource is currently visible in the public database.<br><br>Please unpublish this resource before editing.<br><br><div align="center"><button onclick="closeEditConfirm();" class="btn">OK</button></div>'});
 <?php endif; ?>
 
-<?php if ($field_public_status == 'Public' && $hasAccess_Delete == 1): ?>
+<?php if ($isUsedByOtherResources == 1 && $hasAccess_Delete == 1): ?>
+    $('#delete-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeDeleteConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'Your resource is currently being used by other resources and cannot be deleted.<br><br><div align="center"><button onclick="closeDeleteConfirm();" class="btn">OK</button></div>'});
+<?php elseif ($field_public_status == 'Public' && $hasAccess_Delete == 1): ?>
     $('#delete-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeDeleteConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'Your resource is currently visible in the public database.<br><br>Please unpublish this resource before deleting.<br><br><div align="center"><button onclick="closeDeleteConfirm();" class="btn">OK</button></div>'});
 <?php elseif ($hasAccess_Delete == 1): ?>
     $('#delete-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeDeleteConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'Are you sure you wish to delete this resource?<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/deleteresource/">Yes</a>&nbsp;&nbsp;<button onclick="closeDeleteConfirm();" class="btn">No</button></div>'});
 <?php endif; ?>
 
-<?php if ($node->status == 0 && $hasAccess_Share == 1): ?>
+<?php if ($isUsedByOtherResources == 1 && $hasAccess_Share == 1): ?>
+      $('#share-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeShareConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'Your resource is shared and is visible to anyone with the link.<br><br>Link to share:<br><input type="text" class="input" style="width:100%;" value="<?php echo $GLOBALS['base_url'] . "/node/" . $node -> nid ?>"><br><br>Your resource is currently being used by other resources and cannot be unshared.'});
+<?php elseif ($node->status == 0 && $hasAccess_Share == 1): ?>
       $('#share-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeShareConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'Do you wish to share this resource with anyone with the link?<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/share/">Yes</a>&nbsp;&nbsp;<button onclick="closeShareConfirm();" class="btn">No</button></div>'});
-
 <?php elseif ($node->status == 1 && $field_public_status == 'Public' && $hasAccess_Share == 1): ?>
       $('#share-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeShareConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'Your resource is shared and is visible to anyone with the link.<br><br>Link to share:<br><input type="text" class="input" style="width:100%;" value="<?php echo $GLOBALS['base_url'] . "/node/" . $node -> nid ?>"><br><br>Your resource is currently visible in the public database.<br><br>Please unpublish this resource before unsharing.'});
 <?php elseif ($hasAccess_Share == 1): ?>
