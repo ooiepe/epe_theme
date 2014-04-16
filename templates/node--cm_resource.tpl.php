@@ -51,8 +51,9 @@ function loadFlash() {
   flashvars.PHPPROXY = '<?php echo base_path() . drupal_get_path('module', 'epe_cm') . '/php/RetrieveOWL.php' ?>';
   flashvars.OWLPATH = '<?php echo base_path() . drupal_get_path('module', 'epe_cm') . '/owl/ioos/' ?>';
   flashvars.MAPID = '<?php echo $node->nid ?>';
-
-
+  flashvars.TITLE = <?php echo json_encode($node->title) ?>;
+  flashvars.DESCRIPTION = <?php print json_encode($node -> body['und'][0]['value']) ?>;
+  
   var params = {};
   var attributes = { id: 'conceptMapBuilderViewer', name: 'conceptMapBuilderViewer' };
 
