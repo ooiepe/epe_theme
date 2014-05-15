@@ -293,7 +293,8 @@ if (!empty($node->field_featured_status['und'][0]['value'])) {
 
 <div class="resource-heading">
   <div class="resource-title"><?php print $node -> title ?></div>
-  <div class="resource-author"><strong>Created by:</strong> <?php print $user_name ?></div>
+  <div class="resource-author"><strong>Created by:</strong> <a href="<?php echo base_path() . "user/" . $node -> uid ?>"><?php print $user_name ?></a></div>
+  
 
   <?php if( !empty($node -> body) && $showContent ): ?>
       <div class="resource-description"><?php print $node -> body['und'][0]['value'] ?> </div>
