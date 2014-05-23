@@ -48,7 +48,10 @@
 
 			<h4>Account Information</h4>
 
-			<?php 
+			<?php
+        print render($form['field_account_fname']);
+        print render($form['field_account_lname']);
+        print render($form['field_account_organization']);
 				print render($form['account']['name']);
 				print render($form['account']['mail']);
 				print render($form['account']['pass']);
@@ -60,7 +63,7 @@
 
 	 		<div align="center"><?php echo render($form['actions']); ?></div>
 
-		</div>	
+		</div>
 
 
 	</div>
