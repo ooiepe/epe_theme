@@ -140,6 +140,15 @@ if (!empty($node->field_featured_status['und'][0]['value'])) {
   $field_featured_status = $node->field_featured_status['und'][0]['value'];
 }
 
+$wasCloned = 0;
+if (!empty($node->field_source_nid['und'][0]['value'])) {
+  if ($node->field_source_nid['und'][0]['value'] > 0) {
+    $wasCloned = 1;
+    $original_node = node_load($node->field_source_nid['und'][0]['value']);
+  }
+}
+
+
 
 ?>
 
@@ -293,9 +302,16 @@ if (!empty($node->field_featured_status['und'][0]['value'])) {
 
 <div class="resource-heading">
   <div class="resource-title"><?php print $node -> title ?></div>
-  <div class="resource-author"><strong>Created by:</strong> <?php print $user_name ?></div>
+  <div class="resource-author"><strong>Created by:</strong> <a href="<?php echo base_path() . "user/" . $node -> uid ?>"><?php print $user_name ?></a></div>
+  
 
-  <?php if( !empty($node -> body) && $showContent ): ?>
+
+  <?php if( $wasCloned ): ?>
+      <div class="resource-description"><strong>Was copied from:</strong> <a href="<?php echo base_path() . "node/" . $original_node -> nid ?>"><?php print $original_node -> title ?></a></div>
+  <?php endif; ?>
+
+
+  <?php if( !empty($node -> body) ): ?>
       <div class="resource-description"><?php print $node -> body['und'][0]['value'] ?> </div>
   <?php endif; ?>
 
