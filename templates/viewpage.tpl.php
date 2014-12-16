@@ -69,7 +69,7 @@ if ($router_item = menu_get_item("node/" . $node -> nid . "/feature/")) {
 
 $hasAccess_Clone = 0;
 if ($isDBFiles == 0) {
-  if ($router_item = menu_get_item("node/" . $node -> nid . "/clone/")) {
+  if ($router_item = menu_get_item("node/" . $node -> nid . "/clone/" . clone_token_to_arg())) {
     if ($router_item['access']) {
       $hasAccess_Clone = 1;
     }
@@ -260,7 +260,7 @@ if (!empty($node->field_source_nid['und'][0]['value'])) {
 
 <?php if ($isDBFiles == 0): ?>
   <?php if ($hasAccess_Clone == 1): ?>
-      <li><a href="<?php echo base_path() . "node/" . $node -> nid ?>/clone/" class="links copy">COPY</a></li>
+      <li><a href="<?php echo base_path() . "node/" . $node -> nid ?>/clone/<?php echo clone_token_to_arg() ?>" class="links copy">COPY</a></li>
   <?php endif; ?>
 <?php endif; ?>
 
