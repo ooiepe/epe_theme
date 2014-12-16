@@ -1,5 +1,5 @@
-name = Bootstrap
-description = Built to use Bootstrap, a sleek, intuitive, and powerful front-end framework for faster and easier web development.
+name = EPE Ocean Education Portal
+description = Designed for the Ocean Observatories Initiative, Education and Public Engagement, Ocean Education Portal.  Built on top of the Bootstrap theme.
 core = 7.x
 regions[navigation]     = 'Navigation'
 regions[header]         = 'Top Bar'
@@ -12,8 +12,13 @@ regions[footer]         = 'Footer'
 
 settings[toggle_name] = 0
 settings[toggle_search] = 1
-settings[cdn_bootstrap] = 1
+settings[cdn_bootstrap] = 0
 settings[cdn_bootstrap_version] = 2.3.2
+
+; Manual includes to override CDN
+stylesheets[all][] = bootstrap/css/bootstrap.min.css
+stylesheets[all][] = css/overrides.css
+scripts[] = 'bootstrap/js/bootstrap.min.js'
 
 ;Exclude
 ;javascript
