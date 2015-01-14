@@ -4,7 +4,11 @@
 
 
 <?php
+$node_detail_url = $GLOBALS['base_url'] . "/node/" . $node -> nid;
 
+if(isset($custom_node_detail_url) && valid_url($custom_node_detail_url)) {
+  $node_detail_url = $custom_node_detail_url;
+}
 
 // determine if this resource is used in a concept map or lesson
 $results = db_select('resources_assoc', 'ra')
@@ -65,7 +69,7 @@ if ($router_item = menu_get_item("node/" . $node -> nid . "/feature/")) {
 
 $hasAccess_Clone = 0;
 if ($isDBFiles == 0) {
-  if ($router_item = menu_get_item("node/" . $node -> nid . "/clone/")) {
+  if ($router_item = menu_get_item("node/" . $node -> nid . "/clone/" . clone_token_to_arg())) {
     if ($router_item['access']) {
       $hasAccess_Clone = 1;
     }
@@ -256,7 +260,7 @@ if (!empty($node->field_source_nid['und'][0]['value'])) {
 
 <?php if ($isDBFiles == 0): ?>
   <?php if ($hasAccess_Clone == 1): ?>
-      <li><a href="<?php echo base_path() . "node/" . $node -> nid ?>/clone/" class="links copy">COPY</a></li>
+      <li><a href="<?php echo base_path() . "node/" . $node -> nid ?>/clone/<?php echo clone_token_to_arg() ?>" class="links copy">COPY</a></li>
   <?php endif; ?>
 <?php endif; ?>
 
@@ -303,7 +307,7 @@ if (!empty($node->field_source_nid['und'][0]['value'])) {
 <div class="resource-heading">
   <div class="resource-title"><?php print $node -> title ?></div>
   <div class="resource-author"><strong>Created by:</strong> <a href="<?php echo base_path() . "user/" . $node -> uid ?>"><?php print $user_name ?></a></div>
-  
+
 
 
   <?php if( $wasCloned ): ?>
@@ -322,43 +326,209 @@ if (!empty($node->field_source_nid['und'][0]['value'])) {
 function loadMenu() {
   (function($) {
 
-
 <?php if ($field_public_status == 'Public' && $hasAccess_Edit == 1): ?>
-    $('#edit-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeEditConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'Your resource is currently visible in the public database.<br><br>Please unpublish this resource before editing.<br><br><div align="center"><button onclick="closeEditConfirm();" class="btn">OK</button></div>'});
+    $('#edit-btn')
+      .popover(
+        {
+          title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeEditConfirm(); return false;"><i class="icon-remove"></i></button>',
+          html: 'true',
+          placement: 'bottom',
+          content: 'Your resource is currently visible in the public database.<br><br>Please unpublish this resource before editing.<br><br><div align="center"><button onclick="closeEditConfirm();" class="btn">OK</button></div>'
+        }
+      );
 <?php endif; ?>
 
 <?php if ($isUsedByOtherResources == 1 && $hasAccess_Delete == 1): ?>
-    $('#delete-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeDeleteConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'Your resource is currently being used by other resources and cannot be deleted.<br><br><div align="center"><button onclick="closeDeleteConfirm();" class="btn">OK</button></div>'});
+    $('#delete-btn')
+      .popover(
+        {
+          title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeDeleteConfirm(); return false;"><i class="icon-remove"></i></button>', 
+          html: 'true', 
+          placement: 'bottom', 
+          content: 'Your resource is currently being used by other resources and cannot be deleted.<br><br><div align="center"><button onclick="closeDeleteConfirm();" class="btn">OK</button></div>'
+        }
+      );
 <?php elseif ($field_public_status == 'Public' && $hasAccess_Delete == 1): ?>
-    $('#delete-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeDeleteConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'Your resource is currently visible in the public database.<br><br>Please unpublish this resource before deleting.<br><br><div align="center"><button onclick="closeDeleteConfirm();" class="btn">OK</button></div>'});
+    $('#delete-btn')
+      .popover(
+        {
+          title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeDeleteConfirm(); return false;"><i class="icon-remove"></i></button>', 
+          html: 'true', 
+          placement: 'bottom', 
+          content: 'Your resource is currently visible in the public database.<br><br>Please unpublish this resource before deleting.<br><br><div align="center"><button onclick="closeDeleteConfirm();" class="btn">OK</button></div>'
+        }
+      );
 <?php elseif ($hasAccess_Delete == 1): ?>
-    $('#delete-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeDeleteConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'Are you sure you wish to delete this resource?<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/deleteresource/">Yes</a>&nbsp;&nbsp;<button onclick="closeDeleteConfirm();" class="btn">No</button></div>'});
+    $('#delete-btn')
+      .popover(
+        {
+          title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeDeleteConfirm(); return false;"><i class="icon-remove"></i></button>',
+          html: 'true',
+          placement: 'bottom',
+          content: 'Are you sure you wish to delete this resource?<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/deleteresource/">Yes</a>&nbsp;&nbsp;<button onclick="closeDeleteConfirm();" class="btn">No</button></div>'
+        }
+      );
 <?php endif; ?>
 
 <?php if ($isUsedByOtherResources == 1 && $hasAccess_Share == 1): ?>
-      $('#share-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeShareConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'Your resource is shared and is visible to anyone with the link.<br><br>Link to share:<br><input type="text" class="input" style="width:100%;" value="<?php echo $GLOBALS['base_url'] . "/node/" . $node -> nid ?>"><br><br>Your resource is currently being used by other resources and cannot be unshared.'});
+    $('#share-btn')
+      .popover(
+        {
+          title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeShareConfirm(); return false;"><i class="icon-remove"></i></button>', 
+          html: 'true', 
+          placement: 'bottom', 
+          content: function(){
+            $(this).tooltip('hide');
+            return 'Your resource is shared and is visible to anyone with the link.<br><br>Link to share:<br><input type="text" class="input" style="width:100%;" value="<?php echo $node_detail_url; ?>"><br><br>Your resource is currently being used by other resources and cannot be unshared.';
+          }
+        }
+      )
+      .tooltip(
+        {
+          placement: 'bottom', 
+          title: 'Sharing allows a resource to be visible to anyone with the link'
+        }
+      );
 <?php elseif ($node->status == 0 && $hasAccess_Share == 1): ?>
-      $('#share-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeShareConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'Do you wish to share this resource with anyone with the link?<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/share/">Yes</a>&nbsp;&nbsp;<button onclick="closeShareConfirm();" class="btn">No</button></div>'});
+      $('#share-btn')
+        .popover(
+          {
+            title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeShareConfirm(); return false;"><i class="icon-remove"></i></button>',
+            html: 'true', 
+            placement: 'bottom', 
+            content: function(){
+              $(this).tooltip('hide');
+              return 'Do you wish to share this resource with anyone with the link?<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/share/">Yes</a>&nbsp;&nbsp;<button onclick="closeShareConfirm();" class="btn">No</button></div>';
+            }            
+          }
+        )
+        .tooltip(
+          {
+            placement: 'bottom',
+            title: 'Sharing allows a resource to be visible to anyone with the link'
+          }
+        );
 <?php elseif ($node->status == 1 && $field_public_status == 'Public' && $hasAccess_Share == 1): ?>
-      $('#share-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeShareConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'Your resource is shared and is visible to anyone with the link.<br><br>Link to share:<br><input type="text" class="input" style="width:100%;" value="<?php echo $GLOBALS['base_url'] . "/node/" . $node -> nid ?>"><br><br>Your resource is currently visible in the public database.<br><br>Please unpublish this resource before unsharing.'});
+      $('#share-btn')
+        .popover(
+          {
+            title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeShareConfirm(); return false;"><i class="icon-remove"></i></button>',
+            html: 'true', 
+            placement: 'bottom',
+            content: function(){
+              $(this).tooltip('hide');
+              return 'Your resource is shared and is visible to anyone with the link.<br><br>Link to share:<br><input type="text" class="input" style="width:100%;" value="<?php echo $node_detail_url; ?>"><br><br>Your resource is currently visible in the public database.<br><br>Please unpublish this resource before unsharing.';
+            }
+          }
+        )
+        .tooltip(
+          {
+            placement: 'bottom',
+            title: 'Sharing allows a resource to be visible to anyone with the link'
+          }
+        );
 <?php elseif ($hasAccess_Share == 1): ?>
-      $('#share-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeShareConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'Your resource is shared and is visible to anyone with the link.<br><br>Link to share:<br><input type="text" class="input" style="width:100%;" value="<?php echo $GLOBALS['base_url'] . "/node/" . $node -> nid ?>"><br><br>You may unshare your resource at any time.<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/unshare/">Unshare</a></div><br>Note: Others may be using your resource and care should be taken when Unpublishing.</div>'});
+      $('#share-btn')
+        .popover(
+          {
+            title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeShareConfirm(); return false;"><i class="icon-remove"></i></button>',
+            html: 'true', 
+            placement: 'bottom', 
+            content: function(){
+              $(this).tooltip('hide');
+              return 'Your resource is shared and is visible to anyone with the link.<br><br>Link to share:<br><input type="text" class="input" style="width:100%;" value="<?php echo $node_detail_url; ?>"><br><br>You may unshare your resource at any time.<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/unshare/">Unshare</a></div><br>Note: Others may be using your resource and care should be taken when Unpublishing.</div>';
+            }
+          }
+        )
+        .tooltip(
+          {
+            placement: 'bottom',
+            title: 'Sharing allows a resource to be visible to anyone with the link'
+          }
+        );
 <?php endif; ?>
 
 <?php if ($field_public_status == 'Private' && $hasAccess_Publish == 1): ?>
-      $('#publish-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closePublishConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'Do you wish to submit this resource for review and inclusion in the public database?<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/submitpublic/">Yes</a>&nbsp;&nbsp;<button onclick="closePublishConfirm();" class="btn">No</button></div>'});
+      $('#publish-btn')
+        .popover(
+          {
+            title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closePublishConfirm(); return false;"><i class="icon-remove"></i></button>', 
+            html: 'true', 
+            placement: 'bottom', 
+            content: function(){
+              $(this).tooltip('hide');
+              return 'Do you wish to submit this resource for review and inclusion in the public database?<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/submitpublic/">Yes</a>&nbsp;&nbsp;<button onclick="closePublishConfirm();" class="btn">No</button></div>';
+            }
+          }
+        )
+        .tooltip(
+          {
+            placement: 'bottom', 
+            title: 'Publishing submits a resource for review and inclusion in the public database'
+          }
+        );
 <?php elseif ($field_public_status == 'Pending' && $hasAccess_Publish == 1): ?>
-      $('#publish-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closePublishConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'This resource is currently under review for inclusion in the public database.<br><br>You may withdraw this item from review at any time.<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/unsubmitpublic/">Unpublish</a></div>'});
+      $('#publish-btn')
+        .popover(
+          {
+            title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closePublishConfirm(); return false;"><i class="icon-remove"></i></button>',
+            html: 'true',
+            placement: 'bottom', 
+            content: function(){
+              $(this).tooltip('hide');
+              return 'This resource is currently under review for inclusion in the public database.<br><br>You may withdraw this item from review at any time.<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/unsubmitpublic/">Unpublish</a></div>';
+            }
+          }
+        )
+        .tooltip(
+          {
+            placement: 'bottom', 
+            title: 'Publishing submits a resource for review and inclusion in the public database'
+          }
+        );
 <?php elseif ($field_public_status == 'Public' && $hasAccess_Publish == 1): ?>
-      $('#publish-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closePublishConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'This resource is visible in the public database.<br><br>You may withdraw this item from review at any time.<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/unsubmitpublic/">Unpublish</a></div><br>Note: Others may be using your resource and care should be taken when Unpublishing.</div>'});
+      $('#publish-btn')
+        .popover(
+          {
+            title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closePublishConfirm(); return false;"><i class="icon-remove"></i></button>', 
+            html: 'true', 
+            placement: 'bottom', 
+            content: function(){
+              $(this).tooltip('hide');
+              return 'This resource is visible in the public database.<br><br>You may withdraw this item from review at any time.<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/unsubmitpublic/">Unpublish</a></div><br>Note: Others may be using your resource and care should be taken when Unpublishing.</div>';
+            }
+          }
+        )
+        .tooltip(
+          {
+            placement: 'bottom', 
+            title: 'Publishing submits a resource for review and inclusion in the public database'
+          }
+        );
 <?php endif; ?>
 
 
 <?php if ($node->status == 1 && $field_public_status == 'Public' && $hasAccess_Feature == 1): ?>
   <?php if ($field_featured_status == 'Featured'): ?>
-        $('#feature-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeFeatureConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'This resource is currently featured.<br><br>You may unfeature this item at any time.<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/unfeature/">Unfeature</a></div><br>Note: Others may be using this resource and care should be taken when Unfeaturing.</div>'});
+        $('#feature-btn')
+          .popover(
+            {
+              title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeFeatureConfirm(); return false;"><i class="icon-remove"></i></button>',
+              html: 'true',
+              placement: 'bottom',
+              content: 'This resource is currently featured.<br><br>You may unfeature this item at any time.<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/unfeature/">Unfeature</a></div><br>Note: Others may be using this resource and care should be taken when Unfeaturing.</div>'
+            }
+          );
   <?php else: ?>
-        $('#feature-btn').popover({title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeFeatureConfirm(); return false;"><i class="icon-remove"></i></button>', html: 'true', placement: 'bottom', content: 'Do you wish to feature this resource?<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/feature/">Yes</a>&nbsp;&nbsp;<button onclick="closeFeatureConfirm();" class="btn">No</button></div>'});
+        $('#feature-btn')
+          .popover(
+            {
+              title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeFeatureConfirm(); return false;"><i class="icon-remove"></i></button>', 
+              html: 'true', 
+              placement: 'bottom', 
+              content: 'Do you wish to feature this resource?<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/feature/">Yes</a>&nbsp;&nbsp;<button onclick="closeFeatureConfirm();" class="btn">No</button></div>'
+            }
+          );
   <?php endif; ?>
 <?php endif; ?>
 

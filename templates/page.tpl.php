@@ -29,7 +29,7 @@
 
 <script type="text/javascript">
 function doSearch() {
-  document.location = '<?php echo base_path() ?>resource-browser#/search/' + document.getElementById('searchCriteria').value;
+  document.location = '<?php echo base_path() ?>resource-browser#/search/?type=ev&search=' + document.getElementById('searchCriteria').value;
 
 }
 </script>
