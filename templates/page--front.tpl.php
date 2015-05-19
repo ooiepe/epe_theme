@@ -116,6 +116,12 @@ function doSearch() {
   <div id="welcome-rotator">
     <div id="welcome"><?php echo file_get_contents(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/main.html'); ?></div>
     <div id="rotator">
+      <?php
+        $block = module_invoke('bean', 'block_view', 'homepage-rotator');
+        if(!empty($block['content']['bean']['homepage-rotator']['field_rotator_content_fields']['#items'])) {
+          print render($block['content']);  
+        } else {        
+      ?>
       <?php if(file_exists(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/carousel.json')): ?>
         <?php $carousel = json_decode(file_get_contents(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/carousel.json')); ?>
         <div id="epe-home-carousel" class="carousel slide pull-right"><!-- class of slide for animation -->
@@ -143,7 +149,8 @@ function doSearch() {
           </ol>
         </div><!-- /.carousel -->
       <?php endif; ?>
-    </div>
+      <?php } //end check bean ?>
+    </div> <!-- /rotator -->
     <br style="clear:both;">
   </div> <!-- /welcome-rotator -->
 
