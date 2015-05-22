@@ -264,22 +264,10 @@ if (!empty($node->field_source_nid['und'][0]['value'])) {
   <?php endif; ?>
 <?php endif; ?>
 
-<?php /*if ($isDBFiles == 1): ?>
-
-  <?php if ($field_public_status == 'Public' && $hasAccess_Edit == 1): ?>
-      <li><a href="#" class="links edit popover-link" id="edit-btn">EDIT</a></li>
-  <?php elseif ($hasAccess_Edit == 1): ?>
-      <li><a href="<?php echo base_path() . "resource/file/" . $node -> nid ?>/edit/" class="links edit"  id="edit-btn">EDIT</a></li>
-  <?php endif; ?>
-
-<?php else: */ ?>
-
-  <?php if ($field_public_status == 'Public' && $hasAccess_Edit == 1): ?>
-      <li><a href="#" class="links edit popover-link" id="edit-btn">EDIT</a></li>
-  <?php elseif ($hasAccess_Edit == 1): ?>
-      <li><a href="<?php echo base_path() . "node/" . $node -> nid ?>/edit/" class="links edit"  id="edit-btn">EDIT</a></li>
-  <?php endif; ?>
-
+<?php if ($field_public_status == 'Public' && $hasAccess_Edit == 1): ?>
+    <li><a href="#" class="links edit popover-link" id="edit-btn">EDIT</a></li>
+<?php elseif ($hasAccess_Edit == 1): ?>
+    <li><a href="<?php echo base_path() . "node/" . $node -> nid ?>/edit/" class="links edit"  id="edit-btn">EDIT</a></li>
 <?php endif; ?>
 
 <?php if ($hasAccess_Delete == 1): ?>
