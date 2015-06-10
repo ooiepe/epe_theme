@@ -424,7 +424,13 @@ function loadMenu() {
             placement: 'bottom', 
             content: function(){
               $(this).tooltip('hide');
-              return 'Your resource is shared and is visible to anyone with the link.<br><br>Link to share:<br><input type="text" class="input" style="width:100%;" value="<?php echo $node_detail_url; ?>"><br><br>You may unshare your resource at any time.<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/unshare/">Unshare</a></div><br>Note: Others may be using your resource and care should be taken when Unpublishing.</div>';
+              <?php
+              $social_share_output = '';
+              $social_share_block = module_invoke('epe_wp', 'block_view', 'epe_wp_social_share');
+              if($social_share_block) $social_share_output = '<br/>' . $social_share_block['content'];
+              $tooltip_content = 'Your resource is shared and is visible to anyone with the link.<br><br>Link to share:<br><input type="text" class="input" style="width:100%;" value="'. $node_detail_url .'"><br><br>You may unshare your resource at any time.<br><br><div align="center"><a class="btn btn-primary" href="'. base_path() . 'node/' . $node->nid .'/unshare/">Unshare</a></div><br>Note: Others may be using your resource and care should be taken when Unpublishing.</div>' . $social_share_output; 
+              ?>
+              return '<?php echo $tooltip_content; ?>';
             }
           }
         )
