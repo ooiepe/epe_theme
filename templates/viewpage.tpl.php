@@ -50,6 +50,10 @@ if (!empty($user_data->field_account_fname['und'][0]['value']) && !empty($user_d
 if (!isset($isDBFiles)) {
  $isDBFiles = 0;
 }
+if (!isset($isLLB)) {
+ $isLLB = 0;
+}
+
 if (!isset($hideActionButtons)) {
  $hideActionButtons = 0;
 }
@@ -154,14 +158,55 @@ if (!empty($node->field_source_nid['und'][0]['value'])) {
 
 
 
+$resourceStatus = 'Private';
+$resourceStatusDesc = 'Private - You are the only person who can view this resource.';
+$isChecked_Private = 'checked';
+$isChecked_Published = '';
+$isChecked_Searchable = '';
+$searchablePending = '';
+if ($node->status == 1) {
+  $resourceStatus = 'Published';
+  $resourceStatusDesc = 'Published - Anyone with the url may view this resource.';
+  $isChecked_Private = '';
+  $isChecked_Published = 'checked';
+  $isChecked_Searchable = '';
+}
+if ($field_public_status == 'Pending') {
+  $resourceStatus = 'Pending';
+  $resourceStatusDesc = 'Searchable (Pending Approval) - Anyone with the url may view this resource. You have submitted this item for review and inclusion in the public database.';
+  $isChecked_Private = '';
+  $isChecked_Published = '';
+  $isChecked_Searchable = 'checked';
+  $searchablePending = ' (Currently Pending Approval)';
+}
+if ($field_public_status == 'Public') {
+  $resourceStatus = 'Searchable';
+  $resourceStatusDesc = 'Searchable - This resource is searchable by other users.';
+  $isChecked_Private = '';
+  $isChecked_Published = '';
+  $isChecked_Searchable = 'checked';
+}
+
+$resourceStausSelector = '<table cellpadding="5"><tr><td valign="baseline"><input type="radio" name="status" value="private" onClick="openConfirmPrivate();" ' . $isChecked_Private .  '></td><td>Private - You are the only person who can view this resource.</td></tr><tr><td valign="baseline"><input type="radio" name="status" value="published" onClick="openConfirmPublished();" ' . $isChecked_Published .  '></td><td>Published - Anyone with the url may view this resource.</td></tr><tr><td valign="baseline"><input type="radio" name="status" value="searchable" onClick="openConfirmSearchable();" ' . $isChecked_Searchable .  '></td><td>Searchable' . $searchablePending . ' - This resource is searchable by other users.</td></tr></table>';
+
+$confirmPrivateDialog = '<div id="confirmPrivate" style="margin-top:10px;padding-top:10px;border-top: 1px solid #ccc;display:none;">Are you sure you wish unpublish this resource?<br><br><div align="center"><a class="btn btn-primary" href="' . base_path() . 'node/' . $node -> nid . '/unshare/">Yes</a>&nbsp;&nbsp;<button onclick="closeConfirmPrivate();" class="btn">No</button></div></div>';
+$confirmPublishedDialog = '<div id="confirmPublished" style="margin-top:10px;padding-top:10px;border-top: 1px solid #ccc;display:none;">Are you sure you wish to share this resource with anyone with the link?<br><br><div align="center"><a class="btn btn-primary" href="' . base_path() . 'node/' . $node -> nid . '/share/">Yes</a>&nbsp;&nbsp;<button onclick="closeConfirmPublished();" class="btn">No</button></div></div>';
+$confirmSearchableDialog = '<div id="confirmSearchable" style="margin-top:10px;padding-top:10px;border-top: 1px solid #ccc;display:none;">Are you sure you wish to submit this resource for review and inclusion in the public database?<br><br><div align="center"><a class="btn btn-primary" href="' . base_path() . 'node/' . $node -> nid . '/submitpublic/">Yes</a>&nbsp;&nbsp;<button onclick="closeConfirmSearchable();" class="btn">No</button></div></div>';
+
+$resourceStausSelector = $resourceStausSelector . $confirmPrivateDialog . $confirmPublishedDialog . $confirmSearchableDialog;
+
+if ($node->status == 1) {
+  $social_share_output = '';
+  $social_share_block = module_invoke('epe_wp', 'block_view', 'epe_wp_social_share');
+  if($social_share_block) $social_share_output = '<br/>' . $social_share_block['content'];
+  $resourceStausSelector = $resourceStausSelector . '<br><br>Your resource is shared and is visible to anyone with the link.<br><br>Link to share:<br><input type="text" class="input" style="width:100%;" value="'. $node_detail_url .'">' . $social_share_output; 
+}
+
 ?>
 
 
 
 <style>
-
-
-
 .resource-links {
   float: right;
 }
@@ -274,12 +319,8 @@ if (!empty($node->field_source_nid['und'][0]['value'])) {
     <li><a href="#" class="links delete popover-link" id="delete-btn">DELETE</a></li>
 <?php endif; ?>
 
-<?php if ($hasAccess_Publish == 1): ?>
-    <li><a href="#" class="links publish popover-link" id="publish-btn">PUBLISH</a></li>
-<?php endif; ?>
-
 <?php if ($hasAccess_Share == 1): ?>
-    <li><a href="#" class="links share popover-link" id="share-btn">SHARE</a></li>
+    <li><a href="#" class="links publish popover-link" id="changestatus-btn">CHANGE STATUS</a></li>
 <?php endif; ?>
 
 <?php if ($hasAccess_Feature == 1 && $field_public_status == 'Public'): ?>
@@ -295,7 +336,9 @@ if (!empty($node->field_source_nid['und'][0]['value'])) {
 <div class="resource-heading">
   <div class="resource-title"><?php print $node -> title ?></div>
   <div class="resource-author"><strong>Created by:</strong> <a href="<?php echo base_path() . "user/" . $node -> uid ?>"><?php print $user_name ?></a></div>
-
+  <?php if( $user->uid == $node->uid): ?>
+      <div class="resource-description"><strong>Status:</strong> <?php echo $resourceStatusDesc ?></div>
+  <?php endif; ?>
 
 
   <?php if( $wasCloned ): ?>
@@ -303,7 +346,7 @@ if (!empty($node->field_source_nid['und'][0]['value'])) {
   <?php endif; ?>
 
 
-  <?php if( !empty($node -> body) ): ?>
+  <?php if( !empty($node -> body) && !$isLLB): ?>
       <div class="resource-description"><?php print $node -> body['und'][0]['value'] ?> </div>
   <?php endif; ?>
 
@@ -313,6 +356,21 @@ if (!empty($node->field_source_nid['und'][0]['value'])) {
 
 function loadMenu() {
   (function($) {
+
+
+      $('#changestatus-btn')
+        .popover(
+          {
+            title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeShareConfirm(); return false;"><i class="icon-remove"></i></button>',
+            html: 'true', 
+            placement: 'bottom',
+            content: function(){
+              return '<?php echo $resourceStausSelector ?>';
+            }
+          }
+        )
+
+
 
 <?php if ($field_public_status == 'Public' && $hasAccess_Edit == 1): ?>
     $('#edit-btn')
@@ -358,148 +416,6 @@ function loadMenu() {
       );
 <?php endif; ?>
 
-<?php if ($isUsedByOtherResources == 1 && $hasAccess_Share == 1): ?>
-    $('#share-btn')
-      .popover(
-        {
-          title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeShareConfirm(); return false;"><i class="icon-remove"></i></button>', 
-          html: 'true', 
-          placement: 'bottom', 
-          content: function(){
-            $(this).tooltip('hide');
-            return 'Your resource is shared and is visible to anyone with the link.<br><br>Link to share:<br><input type="text" class="input" style="width:100%;" value="<?php echo $node_detail_url; ?>"><br><br>Your resource is currently being used by other resources and cannot be unshared.';
-          }
-        }
-      )
-      .tooltip(
-        {
-          placement: 'bottom', 
-          title: 'Sharing allows a resource to be visible to anyone with the link'
-        }
-      );
-<?php elseif ($node->status == 0 && $hasAccess_Share == 1): ?>
-      $('#share-btn')
-        .popover(
-          {
-            title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeShareConfirm(); return false;"><i class="icon-remove"></i></button>',
-            html: 'true', 
-            placement: 'bottom', 
-            content: function(){
-              $(this).tooltip('hide');
-              return 'Do you wish to share this resource with anyone with the link?<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/share/">Yes</a>&nbsp;&nbsp;<button onclick="closeShareConfirm();" class="btn">No</button></div>';
-            }            
-          }
-        )
-        .tooltip(
-          {
-            placement: 'bottom',
-            title: 'Sharing allows a resource to be visible to anyone with the link'
-          }
-        );
-<?php elseif ($node->status == 1 && $field_public_status == 'Public' && $hasAccess_Share == 1): ?>
-      $('#share-btn')
-        .popover(
-          {
-            title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeShareConfirm(); return false;"><i class="icon-remove"></i></button>',
-            html: 'true', 
-            placement: 'bottom',
-            content: function(){
-              $(this).tooltip('hide');
-              return 'Your resource is shared and is visible to anyone with the link.<br><br>Link to share:<br><input type="text" class="input" style="width:100%;" value="<?php echo $node_detail_url; ?>"><br><br>Your resource is currently visible in the public database.<br><br>Please unpublish this resource before unsharing.';
-            }
-          }
-        )
-        .tooltip(
-          {
-            placement: 'bottom',
-            title: 'Sharing allows a resource to be visible to anyone with the link'
-          }
-        );
-<?php elseif ($hasAccess_Share == 1): ?>
-      $('#share-btn')
-        .popover(
-          {
-            title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeShareConfirm(); return false;"><i class="icon-remove"></i></button>',
-            html: 'true', 
-            placement: 'bottom', 
-            content: function(){
-              $(this).tooltip('hide');
-              <?php
-              $social_share_output = '';
-              $social_share_block = module_invoke('epe_wp', 'block_view', 'epe_wp_social_share');
-              if($social_share_block) $social_share_output = '<br/>' . $social_share_block['content'];
-              $tooltip_content = 'Your resource is shared and is visible to anyone with the link.<br><br>Link to share:<br><input type="text" class="input" style="width:100%;" value="'. $node_detail_url .'"><br><br>You may unshare your resource at any time.<br><br><div align="center"><a class="btn btn-primary" href="'. base_path() . 'node/' . $node->nid .'/unshare/">Unshare</a></div><br>Note: Others may be using your resource and care should be taken when Unpublishing.</div>' . $social_share_output; 
-              ?>
-              return '<?php echo $tooltip_content; ?>';
-            }
-          }
-        )
-        .tooltip(
-          {
-            placement: 'bottom',
-            title: 'Sharing allows a resource to be visible to anyone with the link'
-          }
-        );
-<?php endif; ?>
-
-<?php if ($field_public_status == 'Private' && $hasAccess_Publish == 1): ?>
-      $('#publish-btn')
-        .popover(
-          {
-            title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closePublishConfirm(); return false;"><i class="icon-remove"></i></button>', 
-            html: 'true', 
-            placement: 'bottom', 
-            content: function(){
-              $(this).tooltip('hide');
-              return 'Do you wish to submit this resource for review and inclusion in the public database?<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/submitpublic/">Yes</a>&nbsp;&nbsp;<button onclick="closePublishConfirm();" class="btn">No</button></div>';
-            }
-          }
-        )
-        .tooltip(
-          {
-            placement: 'bottom', 
-            title: 'Publishing submits a resource for review and inclusion in the public database'
-          }
-        );
-<?php elseif ($field_public_status == 'Pending' && $hasAccess_Publish == 1): ?>
-      $('#publish-btn')
-        .popover(
-          {
-            title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closePublishConfirm(); return false;"><i class="icon-remove"></i></button>',
-            html: 'true',
-            placement: 'bottom', 
-            content: function(){
-              $(this).tooltip('hide');
-              return 'This resource is currently under review for inclusion in the public database.<br><br>You may withdraw this item from review at any time.<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/unsubmitpublic/">Unpublish</a></div>';
-            }
-          }
-        )
-        .tooltip(
-          {
-            placement: 'bottom', 
-            title: 'Publishing submits a resource for review and inclusion in the public database'
-          }
-        );
-<?php elseif ($field_public_status == 'Public' && $hasAccess_Publish == 1): ?>
-      $('#publish-btn')
-        .popover(
-          {
-            title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closePublishConfirm(); return false;"><i class="icon-remove"></i></button>', 
-            html: 'true', 
-            placement: 'bottom', 
-            content: function(){
-              $(this).tooltip('hide');
-              return 'This resource is visible in the public database.<br><br>You may withdraw this item from review at any time.<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/unsubmitpublic/">Unpublish</a></div><br>Note: Others may be using your resource and care should be taken when Unpublishing.</div>';
-            }
-          }
-        )
-        .tooltip(
-          {
-            placement: 'bottom', 
-            title: 'Publishing submits a resource for review and inclusion in the public database'
-          }
-        );
-<?php endif; ?>
 
 
 <?php if ($node->status == 1 && $field_public_status == 'Public' && $hasAccess_Feature == 1): ?>
@@ -554,8 +470,37 @@ function closeShareConfirm() {
 function closePublishConfirm() {
   jQuery('#publish-btn').popover('hide');
 }
+function closeChangeStatusConfirm() {
+  jQuery('#changestatus-btn').popover('hide');
+}
 function closeFeatureConfirm() {
   jQuery('#feature-btn').popover('hide');
+}
+
+
+
+function closeConfirmPrivate() {
+  jQuery('#confirmPrivate').hide();
+}
+
+function openConfirmPrivate() {
+  jQuery('#confirmPrivate').show();
+}
+
+function closeConfirmPublished() {
+  jQuery('#confirmPublished').hide();
+}
+
+function openConfirmPublished() {
+  jQuery('#confirmPublished').show();
+}
+
+function closeConfirmSearchable() {
+  jQuery('#confirmSearchable').hide();
+}
+
+function openConfirmSearchable() {
+  jQuery('#confirmSearchable').show();
 }
 
 

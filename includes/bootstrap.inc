@@ -1,7 +1,7 @@
 <?php
 
 /**
- * A wrapper function for bootstrap_theme_get_settings().
+ * A wrapper function for epe_theme_theme_get_settings().
  * 
  * @param $name
  *   The name of the setting that you want to retrieve. 
@@ -13,12 +13,12 @@
  *   current theme if not defined.
  *   
  * @see 
- *   bootstrap_theme_get_setting().
+ *   epe_theme_theme_get_setting().
  */
-function bootstrap_theme_get_setting($name, $theme = NULL) {
+function epe_theme_theme_get_setting($name, $theme = NULL) {
   switch ($name) {
     case 'exclude':
-      $setting = bootstrap_theme_get_info($name, $theme);
+      $setting = epe_theme_theme_get_info($name, $theme);
       break;
     default:
       $setting = theme_get_setting($name, $theme);
@@ -28,7 +28,7 @@ function bootstrap_theme_get_setting($name, $theme = NULL) {
   return isset($setting) ? $setting : NULL; 
 }
 
-function bootstrap_get_settings($theme = NULL) {
+function epe_theme_get_settings($theme = NULL) {
   if (!isset($theme)) {
     $theme = !empty($GLOBALS['theme_key']) ? $GLOBALS['theme_key'] : '';
   }
@@ -41,7 +41,7 @@ function bootstrap_get_settings($theme = NULL) {
   return $theme_object->info['settings'];
 }
 
-function bootstrap_theme_get_info($setting_name, $theme = NULL) {
+function epe_theme_theme_get_info($setting_name, $theme = NULL) {
   // If no key is given, use the current theme if we can determine it.
   if (!isset($theme)) {
     $theme = !empty($GLOBALS['theme_key']) ? $GLOBALS['theme_key'] : '';
@@ -76,7 +76,7 @@ function bootstrap_theme_get_info($setting_name, $theme = NULL) {
 /**
  * Returns navigational links based on a menu tree
  */
-function bootstrap_menu_navigation_links($tree, $lvl = 0) {
+function epe_theme_menu_navigation_links($tree, $lvl = 0) {
   $result = array();
 
   if (count($tree) > 0) {
@@ -91,7 +91,7 @@ function bootstrap_menu_navigation_links($tree, $lvl = 0) {
 
         // Dont do drugs and don't do any levels deeper then 1
         if ($lvl < 1) {
-          $new_item['below'] = bootstrap_menu_navigation_links($item['below'], $lvl+1);
+          $new_item['below'] = epe_theme_menu_navigation_links($item['below'], $lvl+1);
         }
 
         $result['menu-'. $item['link']['mlid']] = $new_item;
@@ -106,9 +106,9 @@ function bootstrap_menu_navigation_links($tree, $lvl = 0) {
 
 
 /**
- * theme_bootstrap_progress_bar
+ * theme_epe_theme_progress_bar
  */
-function bootstrap_bootstrap_progress_bar($variables) {
+function epe_theme_epe_theme_progress_bar($variables) {
   $variables['attributes']['class'][] = 'progress';
   
   return "<div". drupal_attributes($variables['attributes']) .">

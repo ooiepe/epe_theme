@@ -18,7 +18,7 @@
  *
  * @ingroup themeable
  */
-function bootstrap_pager($variables) {
+function epe_theme_pager($variables) {
   $output = "";
   $tags = $variables['tags'];
   $element = $variables['element'];
