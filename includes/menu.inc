@@ -3,7 +3,7 @@
 /**
  * Returns HTML for primary and secondary local tasks.
  */
-function bootstrap_menu_local_tasks(&$variables) {
+function epe_theme_menu_local_tasks(&$variables) {
   $output = '';
 
   if (!empty($variables['primary'])) {
@@ -29,7 +29,7 @@ function bootstrap_menu_local_tasks(&$variables) {
  *
  * @ingroup themeable
  */
-function bootstrap_menu_local_task($variables) {
+function epe_theme_menu_local_task($variables) {
   $link = $variables['element']['#link'];
   $link_text = $link['title'];
   $classes = array();
@@ -52,11 +52,11 @@ function bootstrap_menu_local_task($variables) {
   return '<li class="' . implode(' ', $classes) . '">' . l($link_text, $link['href'], $link['localized_options']) . "</li>\n";
 }
 
-function bootstrap_menu_tree(&$variables) {
+function epe_theme_menu_tree(&$variables) {
   return '<ul class="menu nav">' . $variables['tree'] . '</ul>';
 }
 
-function bootstrap_menu_link(array $variables) {
+function epe_theme_menu_link(array $variables) {
   $element = $variables['element'];
   $sub_menu = '';
   

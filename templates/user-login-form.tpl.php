@@ -23,14 +23,12 @@
 <div class="form-title">User Login</div>
 
 
-<div style="background-color: #c8d5de;padding:23px;margin-bottom:20px;">
-<div style="border: 1px solid #0195bd;background-color: #fff;padding:20px 31px;">
+<?php $form['name']['#description'] = 'Enter your username'; ?>
 
   <?php print drupal_render_children($form) ?>
 
   <br><br><br>
   <a href="<?php echo base_path() ?>user/register">Not registered? Sign up now!</a><br><br>
-  <a href="<?php echo base_path() ?>user/password">Request new password</a><br>
+  <a href="<?php echo base_path() ?>user/password">Forgot your password? Request a new one.</a><br>
 
-</div>
-</div>
+

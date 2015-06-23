@@ -7,7 +7,7 @@
 /**
  * Returns HTML for a set of links.
  */
-function theme_bootstrap_links($variables) {
+function theme_epe_theme_links($variables) {
   $links = $variables['links'];
   $attributes = $variables['attributes'];
   $heading = $variables['heading'];
@@ -110,7 +110,7 @@ function theme_bootstrap_links($variables) {
         $attributes = array();
         $attributes['class'] = array('dropdown-menu');
 
-        $output .= theme('bootstrap_links', array('links' => $children, 'attributes' => $attributes));
+        $output .= theme('epe_theme_links', array('links' => $children, 'attributes' => $attributes));
       }
 
       $output .= "</li>\n";
@@ -123,9 +123,9 @@ function theme_bootstrap_links($variables) {
 }
 
 /**
- * theme_bootstrap_btn_dropdown
+ * theme_epe_theme_btn_dropdown
  */
-function theme_bootstrap_btn_dropdown($variables) {
+function theme_epe_theme_btn_dropdown($variables) {
   $type_class = '';
   $sub_links ='';
 
@@ -163,7 +163,7 @@ function theme_bootstrap_btn_dropdown($variables) {
 /*
  * Overwrites the default item list to make it prettier
  */
-function bootstrap_item_list($variables) {
+function epe_theme_item_list($variables) {
   $items = $variables['items'];
   $title = $variables['title'];
   $type = $variables['type'];
@@ -220,7 +220,7 @@ function bootstrap_item_list($variables) {
 /**
  * Returns HTML for status and/or error messages, grouped by type.
  */
-function bootstrap_status_messages($variables) {
+function epe_theme_status_messages($variables) {
   $display = $variables['display'];
   $output = '';
 
@@ -271,14 +271,14 @@ function bootstrap_status_messages($variables) {
 /**
  * Implements hook_css_alter().
  */
-function bootstrap_css_alter(&$css) {
-  $theme_path = drupal_get_path('theme', 'bootstrap');
+function epe_theme_css_alter(&$css) {
+  $theme_path = drupal_get_path('theme', 'epe_theme');
   // Load excluded CSS files from theme.
-  $excludes = _bootstrap_alter(bootstrap_theme_get_info('exclude'), 'css');
+  $excludes = _epe_theme_alter(epe_theme_theme_get_info('exclude'), 'css');
   // Add Bootstrap CDN file and overrides.
   if (theme_get_setting('cdn_bootstrap')){
     // Add CDN.
-    $cdn = '//netdna.bootstrapcdn.com/twitter-bootstrap/'. theme_get_setting('cdn_bootstrap_version')  .'/css/bootstrap-combined.min.css';
+    $cdn = '//netdna.bootstrapcdn.com/twitter-bootstrap/'. theme_get_setting('cdn_epe_theme_version')  .'/css/bootstrap-combined.min.css';
     $css[$cdn] = array(
       'data' => $cdn,
       'type' => 'external',
@@ -308,18 +308,18 @@ function bootstrap_css_alter(&$css) {
 /**
  * Implements hook_js_alter().
  */
-function bootstrap_js_alter(&$js) {
+function epe_theme_js_alter(&$js) {
   $files = array();
 
   // Load excluded JS files from theme.
-  $excludes = _bootstrap_alter(bootstrap_theme_get_info('exclude'), 'js');
+  $excludes = _epe_theme_alter(epe_theme_theme_get_info('exclude'), 'js');
 
-  // If bootstrap_ui available, we should not add js from theme info file.
-  if (module_exists('bootstrap_ui')) {
+  // If epe_theme_ui available, we should not add js from theme info file.
+  if (module_exists('epe_theme_ui')) {
     libraries_load('bootstrap', 'minified');
   }
 
-  $theme_path = drupal_get_path('theme', 'bootstrap');
+  $theme_path = drupal_get_path('theme', 'epe_theme');
 
   // Replace core progress bar JS with the Bootstrap equivilent.
   if (isset($js['misc/progress.js']) && !empty($js['misc/progress.js'])) {
@@ -343,7 +343,10 @@ function bootstrap_js_alter(&$js) {
 
   $js = array_diff_key($js, $excludes);
   if (theme_get_setting('cdn_bootstrap')) {
-    $files[] = '//netdna.bootstrapcdn.com/twitter-bootstrap/'. theme_get_setting('cdn_bootstrap_version')  .'/js/bootstrap.min.js';
+    $files[] = '//netdna.bootstrapcdn.com/twitter-bootstrap/'. theme_get_setting('cdn_epe_theme_version')  .'/js/bootstrap.min.js';
+  } else {
+    $files[] = $theme_path . '/js/bootstrap.min.js';
+
   }
 
   // Rearrange / Add JS
@@ -360,7 +363,7 @@ function bootstrap_js_alter(&$js) {
   }
 }
 
-function _bootstrap_alter($files, $type) {
+function _epe_theme_alter($files, $type) {
   $output = array();
   
   foreach($files as $key => $value) {
@@ -376,7 +379,7 @@ function _bootstrap_alter($files, $type) {
 /**
  * Returns HTML for Bootstrap's progress bar.
  */
-function bootstrap_progress_bar($variables) {
+function epe_theme_progress_bar($variables) {
   $output .= '<div id="progress" class="progress-wrapper">';
   $output .= '  <div class="progress progress-striped progress-info active">';
   $output .= '    <div class="bar" style="width: ' . $variables['percent'] . '%"></div>';
@@ -390,7 +393,7 @@ function bootstrap_progress_bar($variables) {
 /**
  * Returns HTML for Bootstrap's modal.
  */
-function bootstrap_bootstrap_modal($variables) {
+function epe_theme_epe_theme_modal($variables) {
   $body = $variables['body'];
   $links = $variables['footer'];
   $heading = $variables['heading'];
@@ -416,7 +419,7 @@ function bootstrap_bootstrap_modal($variables) {
 /**
  * Returns HTML for Bootstrap's Collapse/Accordion.
  */
-function bootstrap_bootstrap_accordion($variables) {
+function epe_theme_epe_theme_accordion($variables) {
   $elements = $variables['elements'];
 
   if (empty($variables['id'])) {
@@ -444,7 +447,7 @@ function bootstrap_bootstrap_accordion($variables) {
 /**
  * Add stripping to tables (in case they don't have .table-no-striping class)
  */
-function bootstrap_preprocess_table(&$variables) {
+function epe_theme_preprocess_table(&$variables) {
 
   if (isset($variables['attributes']['class']) && is_string($variables['attributes']['class'])) {
     // Convert classes to an array.
