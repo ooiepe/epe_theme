@@ -320,7 +320,7 @@ if ($node->status == 1) {
 <?php endif; ?>
 
 <?php if ($hasAccess_Share == 1): ?>
-    <li><a href="#" class="links publish popover-link" id="changestatus-btn">CHANGE STATUS</a></li>
+    <li><a href="#" class="links publish popover-link" id="changestatus-btn">SHARE</a></li>
 <?php endif; ?>
 
 <?php if ($hasAccess_Feature == 1 && $field_public_status == 'Public'): ?>
