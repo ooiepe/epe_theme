@@ -546,7 +546,7 @@ body.toolbar {
 .ev-tool-list-item {
 
   border: 1px solid #0195bb;
-  height: 150px;
+  height: auto;
 }
 
 .ev-tool-list-item .thumb {
