@@ -33,7 +33,12 @@
   <?php print $page; ?>
   <?php print $page_bottom; ?>
 
-    
+  <?php if ($terms_modal): ?>
+    <?php echo file_get_contents(drupal_get_path('theme','epe_theme') . '/templates/content/terms_of_use.htm'); ?>
+    <script>
+      jQuery('#terms_modal').modal('show').modal({keyboard: false});
+    </script>
+  <?php endif; ?>
 
 </body>
 </html>
