@@ -10,63 +10,34 @@ require_once __DIR__ . '/includes/pager.inc';
 require_once __DIR__ . '/includes/form.inc';
 require_once __DIR__ . '/includes/admin.inc';
 require_once __DIR__ . '/includes/menu.inc';
-
-// Load module specific files in the modules directory.
-$includes = file_scan_directory(__DIR__ . '/includes/modules', '/\.inc$/');
-foreach ($includes as $include) {
-  if (module_exists($include->name)) {
-    require_once $include->uri;
-  }
-}
-
-// Auto-rebuild the theme registry during theme development.
-if (theme_get_setting('bootstrap_rebuild_registry') && !defined('MAINTENANCE_MODE')) {
-  // Rebuild .info data.
-  system_rebuild_theme_data();
-  // Rebuild theme registry.
-  drupal_theme_rebuild();
-}
-
 /**
  * Implements hook_theme().
  */
-function bootstrap_theme(&$existing, $type, $theme, $path) {
-  // If we are auto-rebuilding the theme registry, warn about the feature.
-  if (
-    // Only display for site config admins.
-    isset($GLOBALS['user']) && function_exists('user_access') && user_access('administer site configuration')
-    && theme_get_setting('bootstrap_rebuild_registry')
-    // Always display in the admin section, otherwise limit to three per hour.
-    && (arg(0) == 'admin' || flood_is_allowed($GLOBALS['theme'] . '_rebuild_registry_warning', 3))
-  ) {
-    flood_register_event($GLOBALS['theme'] . '_rebuild_registry_warning');
-    drupal_set_message(t('For easier theme development, the theme registry is being rebuilt on every page request. It is <em>extremely</em> important to <a href="!link">turn off this feature</a> on production websites.', array('!link' => url('admin/appearance/settings/' . $GLOBALS['theme']))), 'warning', FALSE);
-  }
-
+function epe_theme_theme(&$existing, $type, $theme, $path) {
   return array(
     'user_login' => array(
       'render element' => 'form',
-        'path' => drupal_get_path('theme', 'bootstrap') . '/templates',
+        'path' => drupal_get_path('theme', 'epe_theme') . '/templates',
         'template' => 'user-login-form',
     ),
     'user_pass' => array(
       'render element' => 'form',
-        'path' => drupal_get_path('theme', 'bootstrap') . '/templates',
+        'path' => drupal_get_path('theme', 'epe_theme') . '/templates',
         'template' => 'user-pass-form',
     ),
     'user_profile_form' => array(
       'render element' => 'form',
-        'path' => drupal_get_path('theme', 'bootstrap') . '/templates',
+        'path' => drupal_get_path('theme', 'epe_theme') . '/templates',
         'template' => 'user-profile-form',
     ),
     'user_register_form' => array(
       'render element' => 'form',
-        'path' => drupal_get_path('theme', 'bootstrap') . '/templates',
+        'path' => drupal_get_path('theme', 'epe_theme') . '/templates',
         'template' => 'user-register-form',
     ),
     'contact_site_form' => array(
       'render element' => 'form',
-        'path' => drupal_get_path('theme', 'bootstrap') . '/templates',
+        'path' => drupal_get_path('theme', 'epe_theme') . '/templates',
         'template' => 'contact-site-form',
     ),
     'bootstrap_links' => array(
@@ -112,7 +83,7 @@ function bootstrap_theme(&$existing, $type, $theme, $path) {
  *
  * Print breadcrumbs as a list, with separators.
  */
-function bootstrap_breadcrumb($variables) {
+function epe_theme_breadcrumb($variables) {
   $breadcrumb = $variables['breadcrumb'];
 
   if (!empty($breadcrumb)) {
@@ -136,7 +107,7 @@ function bootstrap_breadcrumb($variables) {
 /**
  * Override or insert variables in the html_tag theme function.
  */
-function bootstrap_process_html_tag(&$variables) {
+function epe_theme_process_html_tag(&$variables) {
   $tag = &$variables['element'];
 
   if ($tag['#tag'] == 'style' || $tag['#tag'] == 'script') {
@@ -155,7 +126,36 @@ function bootstrap_process_html_tag(&$variables) {
  *
  * @see page.tpl.php
  */
-function bootstrap_preprocess_page(&$variables) {
+function epe_theme_preprocess_page(&$variables) {
+
+  
+
+  if (isset($variables['page']['content']['system_main']['#attributes']['class'][0])) {
+      if ($variables['page']['content']['system_main']['#attributes']['class'][0] == 'contact-form') {
+        drupal_set_title('Contact Us');
+      }
+  }
+
+  if (isset($variables['page']['content']['system_main']['#attributes']['class'][1])) {
+      if ($variables['page']['content']['system_main']['#attributes']['class'][1] == 'node-cm_resource-form' && !isset($variables['page']['content']['system_main']['nid']['#value'])) {
+        drupal_set_title('Create a Concept Map');
+      }
+  }
+
+  if (isset($variables['page']['content']['system_main']['#attributes']['class'][1])) {
+      if ($variables['page']['content']['system_main']['#attributes']['class'][1] == 'node-ev_resource-form' && !isset($variables['page']['content']['system_main']['nid']['#value'])) {
+        drupal_set_title('Create a Custom Visualization Tool');
+      }
+  }
+
+
+// print('<pre>');  
+// print_r($variables['page']['content']['system_main']['#attributes']['class'][1]);
+// print_r(isset($variables['page']['content']['system_main']['nid']['#value']));
+// print_r($variables['page']);
+// print('</pre>');
+
+
   // Add information about the number of sidebars.
   if (!empty($variables['page']['sidebar_first']) && !empty($variables['page']['sidebar_second'])) {
     $variables['columns'] = 3;
@@ -191,16 +191,16 @@ function bootstrap_preprocess_page(&$variables) {
 }
 
 /**
- * Bootstrap theme wrapper function for the primary menu links
+ * theme wrapper function for the primary menu links
  */
-function bootstrap_menu_tree__primary(&$variables) {
+function epe_theme_menu_tree__primary(&$variables) {
   return '<ul class="menu nav">' . $variables['tree'] . '</ul>';
 }
 
 /**
- * Bootstrap theme wrapper function for the secondary menu links
+ * theme wrapper function for the secondary menu links
  */
-function bootstrap_menu_tree__secondary(&$variables) {
+function epe_theme_menu_tree__secondary(&$variables) {
   return '<ul class="menu nav pull-right">' . $variables['tree'] . '</ul>';
 }
 
@@ -220,7 +220,7 @@ function bootstrap_menu_tree__secondary(&$variables) {
  *
  * @see theme_menu_local_action().
  */
-function bootstrap_menu_local_action($variables) {
+function epe_theme_menu_local_action($variables) {
   $link = $variables['element']['#link'];
 
   // Build the icon rendering element.
@@ -257,7 +257,7 @@ function bootstrap_menu_local_action($variables) {
 
 
 
-function bootstrap_preprocess_node(&$variables) {
+function epe_theme_preprocess_node(&$variables) {
   if ($variables['submitted']) {
     $variables['submitted'] = t('NOTSubmitted by !username on !datetime', array('!username' => $variables['name'], '!datetime' => $variables['date']));
   }
@@ -279,7 +279,7 @@ function bootstrap_preprocess_node(&$variables) {
  *
  * @see region.tpl.php
  */
-function bootstrap_preprocess_region(&$variables, $hook) {
+function epe_theme_preprocess_region(&$variables, $hook) {
   if ($variables['region'] == 'content') {
     $variables['theme_hook_suggestions'][] = 'region__no_wrapper';
   }
@@ -294,7 +294,7 @@ function bootstrap_preprocess_region(&$variables, $hook) {
  *
  * @see block.tpl.php
  */
-function bootstrap_preprocess_block(&$variables, $hook) {
+function epe_theme_preprocess_block(&$variables, $hook) {
   //$variables['classes_array'][] = 'row';
   // Use a bare template for the page's main content.
   if ($variables['block_html_id'] == 'block-system-main') {
@@ -311,7 +311,7 @@ function bootstrap_preprocess_block(&$variables, $hook) {
  * @param $hook
  *   The name of the template being rendered ("block" in this case.)
  */
-function bootstrap_process_block(&$variables, $hook) {
+function epe_theme_process_block(&$variables, $hook) {
   // Drupal 7 should use a $title variable instead of $block->subject.
   $variables['title'] = $variables['block']->subject;
 }
@@ -319,7 +319,7 @@ function bootstrap_process_block(&$variables, $hook) {
 /**
  * Returns the correct span class for a region
  */
-function _bootstrap_content_span($columns = 1) {
+function _epe_theme_content_span($columns = 1) {
   $class = FALSE;
 
   switch($columns) {
@@ -342,7 +342,7 @@ function _bootstrap_content_span($columns = 1) {
  *
  * @ingroup themable
  */
-function bootstrap_bootstrap_search_form_wrapper(&$variables) {
+function epe_theme_bootstrap_search_form_wrapper(&$variables) {
   $output = '<div class="input-append">';
   $output .= $variables['element']['#children'];
   $output .= '<button type="submit" class="btn">';
@@ -354,7 +354,7 @@ function bootstrap_bootstrap_search_form_wrapper(&$variables) {
  }
 
 
-function bootstrap_preprocess_html(&$variables) {
+function epe_theme_preprocess_html(&$variables) {
   drupal_add_js(array('epe'=>array('base_path'=>base_path())),'setting');
 
   drupal_add_js(libraries_get_path('underscore') . '/underscore-min.js',array('every_page'=>TRUE,'external'=>TRUE));

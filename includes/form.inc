@@ -3,7 +3,7 @@
 /**
  * Implements hook_form_alter().
  */
-function bootstrap_form_alter(&$form, &$form_state, $form_id) {
+function epe_theme_form_alter(&$form, &$form_state, $form_id) {
   // Id's of forms that should be ignored
   // Make this configurable?
   $form_ids = array(
@@ -22,7 +22,7 @@ function bootstrap_form_alter(&$form, &$form_state, $form_id) {
 /**
  * Implements hook_form_FORM_ID_alter() for search_form().
  */
-function bootstrap_form_search_form_alter(&$form, &$form_state) {
+function epe_theme_form_search_form_alter(&$form, &$form_state) {
   $form['#attributes']['class'][] = 'form-search';
   $form['#attributes']['class'][] = 'pull-left';
 
@@ -34,7 +34,7 @@ function bootstrap_form_search_form_alter(&$form, &$form_state) {
   // Hide the default button from display and implement a theme wrapper to add
   // a submit button containing a search icon directly after the input element.
   $form['basic']['submit']['#attributes']['class'][] = 'element-invisible';
-  $form['basic']['keys']['#theme_wrappers'][] = 'bootstrap_search_form_wrapper';
+  $form['basic']['keys']['#theme_wrappers'][] = 'epe_theme_search_form_wrapper';
 
   // Apply a clearfix so the results don't overflow onto the form.
   $form['#suffix'] = '<div class="clearfix"></div>';
@@ -44,7 +44,7 @@ function bootstrap_form_search_form_alter(&$form, &$form_state) {
 /**
  * Implements hook_form_FORM_ID_alter() for search_block_form().
  */
-function bootstrap_form_search_block_form_alter(&$form, &$form_state) {
+function epe_theme_form_search_block_form_alter(&$form, &$form_state) {
   $form['#attributes']['class'][] = 'form-search';
 
   $form['search_block_form']['#title'] = '';
@@ -55,7 +55,7 @@ function bootstrap_form_search_block_form_alter(&$form, &$form_state) {
   // Hide the default button from display and implement a theme wrapper to add
   // a submit button containing a search icon directly after the input element.
   $form['actions']['submit']['#attributes']['class'][] = 'element-invisible';
-  $form['search_block_form']['#theme_wrappers'][] = 'bootstrap_search_form_wrapper';
+  $form['search_block_form']['#theme_wrappers'][] = 'epe_theme_search_form_wrapper';
 
   // Apply a clearfix so the results don't overflow onto the form.
   $form['#attributes']['class'][] = 'content-search';
@@ -64,7 +64,7 @@ function bootstrap_form_search_block_form_alter(&$form, &$form_state) {
 /**
  * Returns HTML for a form element.
  */
-function bootstrap_form_element(&$variables) {
+function epe_theme_form_element(&$variables) {
   $element = &$variables['element'];
   // This is also used in the installer, pre-database setup.
   $t = get_t();
@@ -116,7 +116,7 @@ function bootstrap_form_element(&$variables) {
   $suffix = isset($element['#field_suffix']) ? ' <span class="field-suffix">' . $element['#field_suffix'] . '</span>' : '';
 
   // Prepare input whitelist - added to ensure ajax functions don't break
-  $whitelist = _bootstrap_element_whitelist();
+  $whitelist = _epe_theme_element_whitelist();
 
   switch ($element['#title_display']) {
     case 'before':
@@ -164,7 +164,7 @@ function bootstrap_form_element(&$variables) {
 /**
  * Returns HTML for a form element label and required marker.
  */
-function bootstrap_form_element_label(&$variables) {
+function epe_theme_form_element_label(&$variables) {
   $element = $variables['element'];
   // This is also used in the installer, pre-database setup.
   $t = get_t();
@@ -214,7 +214,7 @@ function bootstrap_form_element_label(&$variables) {
 /**
  * Preprocessor for theme('button').
  */
-function bootstrap_preprocess_button(&$vars) {
+function epe_theme_preprocess_button(&$vars) {
   $vars['element']['#attributes']['class'][] = 'btn';
 
   if (isset($vars['element']['#value'])) {
@@ -255,7 +255,7 @@ function bootstrap_preprocess_button(&$vars) {
 /**
  * Returns HTML for a button form element.
  */
-function bootstrap_button($variables) {
+function epe_theme_button($variables) {
   $element = $variables['element'];
   $label = $element['#value'];
   element_set_attributes($element, array('id', 'name', 'value', 'type'));
@@ -266,7 +266,7 @@ function bootstrap_button($variables) {
   }
 
   // Prepare input whitelist - added to ensure ajax functions don't break
-  $whitelist = _bootstrap_element_whitelist();
+  $whitelist = _epe_theme_element_whitelist();
 
   if (isset($element['#id']) && in_array($element['#id'], $whitelist)) {
     return '<input' . drupal_attributes($element['#attributes']) . ">\n"; // This line break adds inherent margin between multiple buttons
@@ -279,7 +279,7 @@ function bootstrap_button($variables) {
 /**
  * Returns an array containing ids of any whitelisted drupal elements
  */
-function _bootstrap_element_whitelist() {
+function _epe_theme_element_whitelist() {
 /**
  * Why whitelist an element?
  * The reason is to provide a list of elements we wish to exclude
@@ -296,7 +296,7 @@ function _bootstrap_element_whitelist() {
   );
 }
 
-function bootstrap_bootstrap_append_element(&$variables) {
+function epe_theme_epe_theme_append_element(&$variables) {
   $element = &$variables['element'];
 
   // This is also used in the installer, pre-database setup.
@@ -359,7 +359,7 @@ function bootstrap_bootstrap_append_element(&$variables) {
   $suffix = isset($element['#field_suffix']) ? $element['#field_suffix'] : '';
 
   // Prepare input whitelist - added to ensure ajax functions don't break
-  $whitelist = _bootstrap_element_whitelist();
+  $whitelist = _epe_theme_element_whitelist();
 
   switch ($element['#title_display']) {
     case 'before':

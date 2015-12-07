@@ -8,7 +8,7 @@
 /**
  * Implements hook_icon_providers().
  */
-function bootstrap_icon_providers() {
+function epe_theme_icon_providers() {
   $providers['bootstrap'] = array(
     'title' => t('Bootstrap'),
     'url' => 'http://twitter.github.com/bootstrap/base-css.html#icons',
@@ -19,7 +19,7 @@ function bootstrap_icon_providers() {
 /**
  * Implements hook_icon_bundles().
  */
-function bootstrap_icon_bundles() {
+function epe_theme_icon_bundles() {
   $bundles['bootstrap'] = array(
     'render' => 'sprite',
     'provider' => 'bootstrap',

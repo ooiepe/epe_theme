@@ -8,10 +8,10 @@
 /**
  * Display a view as a table style.
  */
-function bootstrap_preprocess_views_view_table(&$vars) {
+function epe_theme_preprocess_views_view_table(&$vars) {
   $vars['classes_array'][] = 'table';
 }
 
-function bootstrap_preprocess_views_view_grid(&$vars) {
+function epe_theme_preprocess_views_view_grid(&$vars) {
   $vars['class'] .= ' table';
 }

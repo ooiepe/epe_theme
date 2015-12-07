@@ -5,7 +5,7 @@
         <div class="epeheader">
             <div class="bg">
                 <div class="inner">
-                    <a href="<?php echo base_path() ?>"><img src="<?php echo base_path() . drupal_get_path('theme', 'bootstrap') ?>/images/logo.png" border="0" alt="OOI Ocean Education Portal" class="logo"></a>
+                    <a href="<?php echo base_path() ?>"><img src="<?php echo base_path() . drupal_get_path('theme', 'epe_theme') ?>/images/logo.png" border="0" alt="OOI Ocean Education Portal" class="logo"></a>
                     <div class="searchandlogin">
                         <div class="login">
 
@@ -27,13 +27,13 @@
                         <div style="clear:both;"></div>
 
 <script type="text/javascript">
-function doSearch() {
+function doSiteSearch() {
   document.location = '<?php echo base_path() ?>resource-browser#/search/?type=ev&search=' + document.getElementById('searchCriteria').value;
 
 }
 </script>
 
-                        <div class="search"><form action="./" onsubmit="doSearch();return false;"><input id="searchCriteria" type="text" placeholder="Search"></form></div>
+                        <div class="search"><form action="./" onsubmit="doSiteSearch();return false;"><input id="searchCriteria" type="text" placeholder="Search Resources"></form></div>
                     </div>
 
 
@@ -62,7 +62,7 @@ function doSearch() {
       $block = module_invoke('menu_block', 'block_view', '1');
       print drupal_render($block['content']);
       ?>
-      <div class="help-link"><a href="<?php echo base_path() ?>help">Help</a></div>
+      <div class="help-link"><a href="<?php echo base_path() ?>help">Knowledge Base</a></div>
     </div>
   </div>
 </header>
@@ -85,7 +85,7 @@ function doSearch() {
       </aside>  <!-- /#sidebar-first -->
     <?php endif; ?>
 
-    <section class="<?php print _bootstrap_content_span($columns); ?>">
+    <section class="<?php print _epe_theme_content_span($columns); ?>">
       <?php if (!empty($page['highlighted'])): ?>
         <div class="highlighted hero-unit"><?php print render($page['highlighted']); ?></div>
       <?php endif; ?>
@@ -114,17 +114,23 @@ function doSearch() {
 
 <div id="home-content" class="content">
   <div id="welcome-rotator">
-    <div id="welcome"><?php echo file_get_contents(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/main.html'); ?></div>
+    <div id="welcome"><?php echo file_get_contents(drupal_get_path('theme','epe_theme') . '/templates/content/homepage/main.html'); ?></div>
     <div id="rotator">
-      <?php if(file_exists(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/carousel.json')): ?>
-        <?php $carousel = json_decode(file_get_contents(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/carousel.json')); ?>
+      <?php
+        $block = module_invoke('bean', 'block_view', 'homepage-rotator');
+        if(!empty($block['content']['bean']['homepage-rotator']['field_rotator_content_fields']['#items'])) {
+          print render($block['content']);  
+        } else {        
+      ?>
+      <?php if(file_exists(drupal_get_path('theme','epe_theme') . '/templates/content/homepage/carousel.json')): ?>
+        <?php $carousel = json_decode(file_get_contents(drupal_get_path('theme','epe_theme') . '/templates/content/homepage/carousel.json')); ?>
         <div id="epe-home-carousel" class="carousel slide pull-right"><!-- class of slide for animation -->
           <div class="carousel-inner">
             <?php foreach($carousel as $key=>$slide): ?>
               <?php $slideclasses = array('item'); ?>
               <?php if($key == 0): array_push($slideclasses, "active"); endif; ?>
               <div class="<?php echo implode(' ', $slideclasses); ?>">
-                <img src="<?php echo drupal_get_path('theme','bootstrap') . '/templates/content/homepage/images/' . $slide->image; ?>" />
+                <img src="<?php echo drupal_get_path('theme','epe_theme') . '/templates/content/homepage/images/' . $slide->image; ?>" />
                 <?php if(isset($slide->caption) && $slide->caption != ''): ?>
                   <div class="carousel-caption">
                     <p><?php echo $slide->caption; ?></p>
@@ -143,23 +149,83 @@ function doSearch() {
           </ol>
         </div><!-- /.carousel -->
       <?php endif; ?>
-    </div>
+      <?php } //end check bean ?>
+    </div> <!-- /rotator -->
     <br style="clear:both;">
   </div> <!-- /welcome-rotator -->
 
   <div id="tool-intros" class="control-group">
     <div class="span4">
-    <?php echo file_get_contents(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/block-left.html'); ?>
+    <?php echo file_get_contents(drupal_get_path('theme','epe_theme') . '/templates/content/homepage/block-left.html'); ?>
     </div>
-    <div class="span4">
-    <?php echo file_get_contents(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/block-center.html'); ?>
+    <div class="span4" style="margin-left:51px;">
+    <?php echo file_get_contents(drupal_get_path('theme','epe_theme') . '/templates/content/homepage/block-center.html'); ?>
     </div>
-    <div class="span4">
-    <?php echo file_get_contents(drupal_get_path('theme','bootstrap') . '/templates/content/homepage/block-right.html'); ?>
+    <div class="span4" style="margin-left:51px;">
+    <?php echo file_get_contents(drupal_get_path('theme','epe_theme') . '/templates/content/homepage/block-right.html'); ?>
+    </div>
+    <br clear="all">
+  </div>
+</div> <!-- /.content -->
+
+
+<?php
+drupal_add_js(drupal_get_path('module','epe_cm') . '/js/mmr.js');
+?>
+
+<script>
+var $ = jQuery;
+window.onload = function () {
+
+
+                jQuery('#term').typeahead({
+                    minLength: 2, 
+                    source: function(q, cb) {
+                        console.log(q);
+                        findKeyWordMatches("Name", q);
+                        var arrMatches = [];
+                        for (var k=0; k<keywordMatches.length; k++ ){
+                            arrMatches.push(keywordMatches[k].formatted);
+                        };
+                        cb(arrMatches);
+                    }, 
+                    matcher: function (item) {
+                        // all matches are true cause we've already filtered
+                        return true;
+                    }, 
+                    updater: function (item) {
+                        //alert(item);
+
+                        document.location = '<?php echo base_path() ?>vocab?term=' + item;
+                        // this is the item they have selected, we now have to do something with it
+                        return item;
+                    }
+                });
+             loadVocabStyles("<?php echo drupal_get_path('module','epe_cm') ?>/xml/vocab_css.xml");
+};
+
+</script>
+
+<div id="home-vocab" class="content">
+  <div  class="inner">
+    <p>
+      <?php echo file_get_contents(drupal_get_path('theme','epe_theme') . '/templates/content/homepage/vocab.html'); ?>
+    </p>
+    <div class="explore-button">
+      <a href="./vocab"><img src="<?php echo base_path() . drupal_get_path('theme', 'epe_theme') ?>/images/home_start_exploring_btn.png" border="0"></a>
+    </div>
+    <div class="search">
+      <form name="vocab" action="<?php echo base_path() ?>vocab" method="get">
+      <input type="text" id="term" name="term" autocomplete="off" placeholder="Search Vocabulary">
+      <img src="<?php echo base_path() . drupal_get_path('theme', 'epe_theme') ?>/images/home_explore_search_btn.png" onClick="document.forms['vocab'].submit();">
+      </form>
+    </div>
+    <div class="or">
+      OR
     </div>
   </div>
-  <br style="clear:both;">
-</div> <!-- /.content -->
+</div>
+
 
 <style type="text/css">
 #home-featured {
@@ -178,8 +244,8 @@ function doSearch() {
   float: left;
   width: 195px;
   border-left: 1px solid #cadfe7;
-  padding-left: 31px;
-  margin-left: 30px;
+  padding-left: 21px;
+  margin-left: 20px;
   height: 100%;
 }
 
@@ -229,8 +295,31 @@ function doSearch() {
 }
 
 
+#home-featured-wrapper {
+  float: left;
+  width: 698px;
+  margin-left: 42px;
+}
 
+#home-updates-wrapper {
+  float: right;
+  width: 200px;
+  margin-right: 20px;
+  padding-top: 14px;
+  padding-right: 20px;
+}
 
+#home-updates-wrapper h2 {
+  font-size: 24px;
+  font-weight: normal;
+}
+
+#home-updates-wrapper p {
+  border-left: 1px solid #cadfe7;
+  margin-top: 25px;
+  margin-left: -20px;
+  padding-left: 20px;
+}
 
 
 
@@ -269,7 +358,7 @@ function doSearch() {
 -->
 
 
-
+    <div id="home-featured-wrapper">
     <div class="control-group">
       <div class="span12">
         <div id="home-featured">
@@ -281,6 +370,10 @@ function doSearch() {
         <br clear="all">
         </div>
       </div>
+    </div>
+    </div>
+    <div id="home-updates-wrapper">
+      <?php echo file_get_contents(drupal_get_path('theme','epe_theme') . '/templates/content/homepage/updates.html'); ?>
     </div>
 
     </section>
@@ -300,9 +393,9 @@ function doSearch() {
   <?php //print render($page['footer']); ?>
 
   <div class="inner" style="padding-top:20px;">
-    <div class="disclaimer-block">Funding for the Ocean Observatories Initiative is provided by the National Science Foundation through a Cooperative Agreement with the Consortium for Ocean Leadership. The OOI Program Implementing Organizations are funded through sub-awards from the Consortium for Ocean Leadership. </div>
+    <div class="disclaimer-block">Funding for the Ocean Observatories Initiative is provided by the National Science Foundation through a Cooperative Agreement with the Consortium for Ocean Leadership. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the National Science Foundation.  </div>
 
-    <div class="logo-block"><a href="http://www.nsf.gov/"><img src="<?php echo base_path() . drupal_get_path('theme', 'bootstrap') ?>/images/nsf_logo.png" border="0" alt="National Science Foundation" class="logo" align="right"></a><div>&copy; 2013 OOI - All Rights Reserved<br><a href="<?php echo base_path() ?>contact">Contact the OOI EPE Team</a></div></div>
+    <div class="logo-block"><a href="http://www.nsf.gov/"><img src="<?php echo base_path() . drupal_get_path('theme', 'epe_theme') ?>/images/nsf_logo.png" border="0" alt="National Science Foundation" class="logo" align="right"></a><div>&copy; <?php echo date("Y") ?> OOI - All Rights Reserved<br><a href="<?php echo base_path() ?>privacy">Privacy</a> | <a href="<?php echo base_path() ?>termsofuse">Terms of Use</a> | <a href="<?php echo base_path() ?>copyright">Copyright Policy</a> | <a href="<?php echo base_path() ?>contact">Contact</a></div></div>
 
   </div>
 

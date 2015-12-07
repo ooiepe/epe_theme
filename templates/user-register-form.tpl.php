@@ -16,8 +16,9 @@
 }
 
 .welcome {
-	color: #fff;
-	padding: 20px;
+	ccolor: #fff;
+	padding-top: 20px;
+	padding-right: 20px;
 }
 
 .account-info h4 {
@@ -30,28 +31,38 @@
 
 
 
-<div class="form-title">New User Registration</div>
+<div class="form-title">Create a New Account</div>
 
-<div style="background-color: #c8d5de;padding:23px;margin-bottom:20px;">
-<div style="border: 1px solid #0195bd;background-color: #fff;padding:0px;">
+<!-- <div style="background-color: #c8d5de;padding:23px;margin-bottom:20px;">
+<div style="border: 1px solid #0195bd;background-color: #fff;padding:0px;"> -->
 
-	<div style="background-color: #07698e;float: left;width:320px; height:900px;">
+	<div style="float: left;width:320px; height:900px;">
 		<div class="welcome">
-			<h4>Welcome</h4>
+				<p>
 
-				<p>This is the user registration page to create a new account. The form requires a username, email, and password (designated by you). To complete the process, you will need to enter the CAPTCHA phrase displayed at bottom. This precaution is employed to prevent automated spam submissions.</p><p>Having an account will allow you create new resources using the site&rsquo;s tools (i.e., data visualizers, concept map and lesson builders). You will also be able to upload some types of resources from your own computer. All of these will items will remain private unless you elect to publish them. &nbsp;</p><p>After being reviewed and approved by moderator, your published resources will display your &ldquo;Username&rdquo; and will be visible to anyone viewing that resource. Registered users can comment on all published resources.</p>
+All of the public content on the Ocean Education Portal can be accessed without a log in.<br><br>
+
+<h4>Why should I join?</h4>
+
+By creating an account, you can create your own content, which includes customizing Visualization Tools, designing your own Concept maps, and constructing activities using the Data Investigation builder.<br><br>
+
+All items you create will remain private until you choose to share them with others. When you share an item, you have the option of making it available in the public database for others to find, after they are approved by a site moderator. Approved items are displayed in the Resource Browser with the name of the author included.<br><br>
+
+Registered users also have the ability to comment on all published resources, and can bookmark items as “favorites” to make them easy to find. <br><br>
+
+				</p>
 		</div>
 	</div>
 
-	<div style="float: right; width: 600px; padding: 0px;">
-		<div class="account-info" style="padding: 20px 30px 20px 0px;">
+	<div style="float: right; width: 560px; padding: 0px;">
+		<div class="account-info" style="padding: 0px 30px 20px 60px;border-left: 1px solid #cadfe7;">
 
 			<h4>Account Information</h4>
 
 			<?php
-        print render($form['field_account_fname']);
-        print render($form['field_account_lname']);
-        print render($form['field_account_organization']);
+		        print render($form['field_account_fname']);
+		        print render($form['field_account_lname']);
+		        print render($form['field_account_organization']);
 				print render($form['account']['name']);
 				print render($form['account']['mail']);
 				print render($form['account']['pass']);
@@ -72,9 +83,9 @@
 	<div style="clear:both;"></div>
 
 
+<!-- </div>
 </div>
-</div>
-
+ -->
 <?php
   /* form identifier */
   echo render($form['form_build_id']);

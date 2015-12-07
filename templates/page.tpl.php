@@ -6,7 +6,7 @@
         <div class="epeheader">
             <div class="bg">
                 <div class="inner">
-                    <a href="<?php echo base_path() ?>"><img src="<?php echo base_path() . drupal_get_path('theme', 'bootstrap') ?>/images/logo.png" border="0" alt="OOI Ocean Education Portal" class="logo"></a>
+                    <a href="<?php echo base_path() ?>"><img src="<?php echo base_path() . drupal_get_path('theme', 'epe_theme') ?>/images/logo.png" border="0" alt="OOI Ocean Education Portal" class="logo"></a>
                     <div class="searchandlogin">
                         <div class="login">
 
@@ -34,7 +34,7 @@ function doSearch() {
 }
 </script>
 
-                        <div class="search"><form action="./" onsubmit="doSearch();return false;"><input id="searchCriteria" type="text" placeholder="Search"></form></div>                      
+                        <div class="search"><form action="./" onsubmit="doSearch();return false;"><input id="searchCriteria" type="text" placeholder="Search Resources"></form></div>                      
                     </div>
 
 
@@ -63,7 +63,7 @@ function doSearch() {
       $block = module_invoke('menu_block', 'block_view', '1');
       print drupal_render($block['content']);
       ?>
-      <div class="help-link"><a href="<?php echo base_path() ?>help">Help</a></div>
+      <div class="help-link"><a href="<?php echo base_path() ?>help">Knowledge Base</a></div>
     </div>
   </div>
 </header>
@@ -86,7 +86,8 @@ function doSearch() {
       </aside>  <!-- /#sidebar-first -->
     <?php endif; ?>  
 
-    <section class="<?php print _bootstrap_content_span($columns); ?>">  
+    <section class="<?php print _epe_theme_content_span($columns); ?>">  
+      <div class="section-content">
       <?php if (!empty($page['highlighted'])): ?>
         <div class="highlighted hero-unit"><?php print render($page['highlighted']); ?></div>
       <?php endif; ?>
@@ -111,6 +112,7 @@ function doSearch() {
         <ul class="action-links"><?php print render($action_links); ?></ul>
       <?php endif; ?>
       <?php print render($page['content']); ?>
+      </div>
     </section>
 
     <?php if (!empty($page['sidebar_second'])): ?>
@@ -128,9 +130,9 @@ function doSearch() {
   <?php //print render($page['footer']); ?>
 
   <div class="inner" style="padding-top:20px;">
-    <div class="disclaimer-block">Funding for the Ocean Observatories Initiative is provided by the National Science Foundation through a Cooperative Agreement with the Consortium for Ocean Leadership. The OOI Program Implementing Organizations are funded through sub-awards from the Consortium for Ocean Leadership. </div>
+    <div class="disclaimer-block">Funding for the Ocean Observatories Initiative is provided by the National Science Foundation through a Cooperative Agreement with the Consortium for Ocean Leadership. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the National Science Foundation.  </div>
 
-    <div class="logo-block"><a href="http://www.nsf.gov/"><img src="<?php echo base_path() . drupal_get_path('theme', 'bootstrap') ?>/images/nsf_logo.png" border="0" alt="National Science Foundation" class="logo" align="right"></a><div>&copy; 2013 OOI - All Rights Reserved<br><a href="<?php echo base_path() ?>contact">Contact the OOI EPE Team</a></div></div>
+    <div class="logo-block"><a href="http://www.nsf.gov/"><img src="<?php echo base_path() . drupal_get_path('theme', 'epe_theme') ?>/images/nsf_logo.png" border="0" alt="National Science Foundation" class="logo" align="right"></a><div>&copy; <?php echo date("Y") ?> OOI - All Rights Reserved<br><a href="<?php echo base_path() ?>privacy">Privacy</a> | <a href="<?php echo base_path() ?>termsofuse">Terms of Use</a> | <a href="<?php echo base_path() ?>copyright">Copyright Policy</a> | <a href="<?php echo base_path() ?>contact">Contact</a></div></div>
                       
   </div>
 
