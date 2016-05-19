@@ -308,15 +308,16 @@ if ($node->status == 1) {
       <li>
       <!-- <a href="<?php echo base_path() . "node/" . $node -> nid ?>/clone/<?php echo clone_token_to_arg() ?>" class="links copy" title="Copy This Resource">COPY</a> -->
       <?php 
-      echo l(t('COPY'),'node/' . $node->nid,
+      echo l(t('COPY'), $node->nid . '/clone/' .  clone_token_to_arg(),
         array(
           'attributes'=>array(
             'data-placement'=>'bottom',
             'rel'=>'tooltip',
             'class'=>array('links','copy'),
-            'id'=>'edit-btn',
+            'id'=>'copy-btn',
             'title'=>'Copy This Resource'
-          )
+          ),
+          'external'=>true
         )      
       ); 
       ?>      
@@ -335,7 +336,8 @@ if ($node->status == 1) {
             'class'=>array('links','edit','popover-link'),
             'id'=>'edit-btn',
             'title'=>'Edit This Resource'
-          )
+          ),
+          'external'=>true
         )      
       ); 
       ?>
@@ -344,7 +346,7 @@ if ($node->status == 1) {
     <li>
     <!-- <a href="<?php echo base_path() . "node/" . $node -> nid ?>/edit/" class="links edit" id="edit-btn" title="Edit This Resource">EDIT</a> -->
     <?php 
-      echo l(t('EDIT'),'node/' . $node->nid,
+      echo l(t('EDIT'), $node->nid,
         array(
           'attributes'=>array(
             'data-placement'=>'bottom',
@@ -352,7 +354,8 @@ if ($node->status == 1) {
             'class'=>array('links','edit'),
             'id'=>'edit-btn',
             'title'=>'Edit This Resource'
-          )
+          ),
+          'external'=>true
         )      
       ); 
     ?>    
@@ -371,7 +374,8 @@ if ($node->status == 1) {
           'class'=>array('links','delete','popover-link'),
           'id'=>'delete-btn',
           'title'=>'Delete This Resource'
-        )
+        ),
+        'external'=>true
       )      
     ); 
     ?>
@@ -388,9 +392,10 @@ if ($node->status == 1) {
           'data-placement'=>'bottom',
           'rel'=>'tooltip',
           'class'=>array('links','publish','popover-link'),
-          'id'=>'share-btn',
+          'id'=>'changestatus-btn',
           'title'=>'Share This Resource'
-        )
+        ),
+        'external'=>true
       )      
     ); 
     ?>    
@@ -407,9 +412,10 @@ if ($node->status == 1) {
           'data-placement'=>'bottom',
           'rel'=>'tooltip',
           'class'=>array('links','share','popover-link'),
-          'id'=>'edit-btn',
+          'id'=>'feature-btn',
           'title'=>'Feature This Resource'
-        )
+        ),
+        'external'=>true
       )      
     ); 
     ?>    
