@@ -355,7 +355,7 @@ function epe_theme_bootstrap_search_form_wrapper(&$variables) {
 
 
 function epe_theme_preprocess_html(&$variables) {
-  drupal_add_js(array('epe'=>array('base_path'=>base_path())),'setting');
+  drupal_add_js(array('epe'=>array('base_path'=>base_path(), 'theme_path'=>drupal_get_path('theme','epe_theme'))),'setting');
 
   drupal_add_js(libraries_get_path('underscore') . '/underscore-min.js',array('every_page'=>TRUE,'external'=>TRUE));
   drupal_add_js(libraries_get_path('jquery.session') . '/jquery.session.js',array('every_page'=>TRUE,'external'=>TRUE));
