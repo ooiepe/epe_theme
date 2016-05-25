@@ -297,7 +297,6 @@ window.onload = function () {
 
 #home-featured-wrapper {
   float: left;
-  width: 698px;
   margin-left: 42px;
 }
 
