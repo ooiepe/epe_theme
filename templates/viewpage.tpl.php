@@ -305,26 +305,121 @@ if ($node->status == 1) {
 
 <?php if ($isDBFiles == 0): ?>
   <?php if ($hasAccess_Clone == 1): ?>
-      <li><a href="<?php echo base_path() . "node/" . $node -> nid ?>/clone/<?php echo clone_token_to_arg() ?>" class="links copy">COPY</a></li>
+      <li>
+      <!-- <a href="<?php echo base_path() . "node/" . $node -> nid ?>/clone/<?php echo clone_token_to_arg() ?>" class="links copy" title="Copy This Resource">COPY</a> -->
+      <?php 
+      echo l(t('COPY'), $node->nid . '/clone/' .  clone_token_to_arg(),
+        array(
+          'attributes'=>array(
+            'data-placement'=>'bottom',
+            'rel'=>'tooltip',
+            'class'=>array('links','copy'),
+            'id'=>'copy-btn',
+            'title'=>'Copy This Resource'
+          ),
+          'external'=>true
+        )      
+      ); 
+      ?>      
+      </li>
   <?php endif; ?>
 <?php endif; ?>
 
 <?php if ($field_public_status == 'Public' && $hasAccess_Edit == 1): ?>
-    <li><a href="#" class="links edit popover-link" id="edit-btn">EDIT</a></li>
+    <li><!-- <a href="#" class="links edit popover-link" id="edit-btn" title="Edit This Resource">EDIT</a> -->
+      <?php 
+      echo l(t('EDIT'),'#',
+        array(
+          'attributes'=>array(
+            'data-placement'=>'bottom',
+            'rel'=>'tooltip',
+            'class'=>array('links','edit','popover-link'),
+            'id'=>'edit-btn',
+            'title'=>'Edit This Resource'
+          ),
+          'external'=>true
+        )      
+      ); 
+      ?>
+    </li>
 <?php elseif ($hasAccess_Edit == 1): ?>
-    <li><a href="<?php echo base_path() . "node/" . $node -> nid ?>/edit/" class="links edit"  id="edit-btn">EDIT</a></li>
+    <li>
+    <!-- <a href="<?php echo base_path() . "node/" . $node -> nid ?>/edit/" class="links edit" id="edit-btn" title="Edit This Resource">EDIT</a> -->
+    <?php 
+      echo l(t('EDIT'), $node->nid,
+        array(
+          'attributes'=>array(
+            'data-placement'=>'bottom',
+            'rel'=>'tooltip',
+            'class'=>array('links','edit'),
+            'id'=>'edit-btn',
+            'title'=>'Edit This Resource'
+          ),
+          'external'=>true
+        )      
+      ); 
+    ?>    
+    </li>
 <?php endif; ?>
 
 <?php if ($hasAccess_Delete == 1): ?>
-    <li><a href="#" class="links delete popover-link" id="delete-btn">DELETE</a></li>
+    <li>
+    <!-- <a href="#" class="links delete popover-link" id="delete-btn" title="Delete This Resource">DELETE</a> -->
+    <?php 
+    echo l(t('DELETE'),'#',
+      array(
+        'attributes'=>array(
+          'data-placement'=>'bottom',
+          'rel'=>'tooltip',
+          'class'=>array('links','delete','popover-link'),
+          'id'=>'delete-btn',
+          'title'=>'Delete This Resource'
+        ),
+        'external'=>true
+      )      
+    ); 
+    ?>
+    </li>
 <?php endif; ?>
 
 <?php if ($hasAccess_Share == 1): ?>
-    <li><a href="#" class="links publish popover-link" id="changestatus-btn">SHARE</a></li>
+    <li>
+    <!-- <a href="#" class="links publish popover-link" id="changestatus-btn" title="Share This Resource">SHARE</a> -->
+    <?php 
+    echo l(t('SHARE'),'#',
+      array(
+        'attributes'=>array(
+          'data-placement'=>'bottom',
+          'rel'=>'tooltip',
+          'class'=>array('links','publish','popover-link'),
+          'id'=>'changestatus-btn',
+          'title'=>'Share This Resource'
+        ),
+        'external'=>true
+      )      
+    ); 
+    ?>    
+    </li>
 <?php endif; ?>
 
 <?php if ($hasAccess_Feature == 1 && $field_public_status == 'Public'): ?>
-    <li><a href="#" class="links share popover-link" id="feature-btn">FEATURE</a></li>
+    <li>
+    <!-- <a href="#" class="links share popover-link" id="feature-btn" title="Feature This Resource">FEATURE</a> -->
+    <?php 
+    echo l(t('FEATURE'),'#',
+      array(
+        'attributes'=>array(
+          'data-placement'=>'bottom',
+          'rel'=>'tooltip',
+          'class'=>array('links','share','popover-link'),
+          'id'=>'feature-btn',
+          'title'=>'Feature This Resource'
+        ),
+        'external'=>true
+      )      
+    ); 
+    ?>    
+    </li>
 <?php endif; ?>
 
   </ul>
@@ -507,4 +602,6 @@ function openConfirmSearchable() {
 </script>
 
 <?php drupal_add_js('jQuery(document).ready(function () { loadMenu(); });', array('type' => 'inline', 'scope' => 'footer', 'weight' => 5)); ?>
+
+<?php drupal_add_js('jQuery(document).ready(function ($) { $("a[rel=tooltip]").tooltip(); });', array('type' => 'inline', 'scope' => 'footer', 'weight' => 5)); ?>
 
