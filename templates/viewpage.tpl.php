@@ -315,7 +315,8 @@ if ($node->status == 1) {
             'rel'=>'tooltip',
             'class'=>array('links','copy'),
             'id'=>'copy-btn',
-            'title'=>'Copy This Resource'
+            'title'=>'Copy This Resource',
+            'trigger'=>'manual'
           ),
           'external'=>true
         )      
@@ -335,7 +336,8 @@ if ($node->status == 1) {
             'rel'=>'tooltip',
             'class'=>array('links','edit','popover-link'),
             'id'=>'edit-btn',
-            'title'=>'Edit This Resource'
+            'title'=>'Edit This Resource',
+            'trigger'=>'manual'
           ),
           'external'=>true
         )      
@@ -346,14 +348,15 @@ if ($node->status == 1) {
     <li>
     <!-- <a href="<?php echo base_path() . "node/" . $node -> nid ?>/edit/" class="links edit" id="edit-btn" title="Edit This Resource">EDIT</a> -->
     <?php 
-      echo l(t('EDIT'), $node->nid,
+      echo l(t('EDIT'), $node->nid . '/edit/',
         array(
           'attributes'=>array(
             'data-placement'=>'bottom',
             'rel'=>'tooltip',
             'class'=>array('links','edit'),
             'id'=>'edit-btn',
-            'title'=>'Edit This Resource'
+            'title'=>'Edit This Resource',
+            'trigger'=>'manual'
           ),
           'external'=>true
         )      
@@ -373,7 +376,8 @@ if ($node->status == 1) {
           'rel'=>'tooltip',
           'class'=>array('links','delete','popover-link'),
           'id'=>'delete-btn',
-          'title'=>'Delete This Resource'
+          'title'=>'Delete This Resource',
+          'trigger'=>'manual'
         ),
         'external'=>true
       )      
@@ -393,7 +397,8 @@ if ($node->status == 1) {
           'rel'=>'tooltip',
           'class'=>array('links','publish','popover-link'),
           'id'=>'changestatus-btn',
-          'title'=>'Share This Resource'
+          'title'=>'Share This Resource',
+          'trigger'=>'manual'
         ),
         'external'=>true
       )      
@@ -413,7 +418,8 @@ if ($node->status == 1) {
           'rel'=>'tooltip',
           'class'=>array('links','share','popover-link'),
           'id'=>'feature-btn',
-          'title'=>'Feature This Resource'
+          'title'=>'Feature This Resource',
+          'trigger'=>'manual'
         ),
         'external'=>true
       )      
@@ -603,5 +609,5 @@ function openConfirmSearchable() {
 
 <?php drupal_add_js('jQuery(document).ready(function () { loadMenu(); });', array('type' => 'inline', 'scope' => 'footer', 'weight' => 5)); ?>
 
-<?php drupal_add_js('jQuery(document).ready(function ($) { $("a[rel=tooltip]").tooltip(); });', array('type' => 'inline', 'scope' => 'footer', 'weight' => 5)); ?>
+<?php drupal_add_js(drupal_get_path('theme','epe_theme') . '/js/resource-toolbar.tooltip.js'); ?>
 
