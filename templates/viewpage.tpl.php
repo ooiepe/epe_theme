@@ -276,8 +276,8 @@ if ($node->status == 1) {
 #comments .form-item-subject, #comments #edit-preview, #comments .form-type-item, #comment-form .form-item-subject, #comment-form #edit-preview, #comment-form .form-type-item {
   display: none;
 }
-
-
+/* fix inconsistent popover width  */
+.resource-links .popover { width: 276px; }
 
 </style>
 
@@ -586,6 +586,8 @@ function closeConfirmPrivate() {
 
 function openConfirmPrivate() {
   jQuery('#confirmPrivate').show();
+  closeConfirmPublished();
+  closeConfirmSearchable();
 }
 
 function closeConfirmPublished() {
@@ -594,6 +596,8 @@ function closeConfirmPublished() {
 
 function openConfirmPublished() {
   jQuery('#confirmPublished').show();
+  closeConfirmPrivate();
+  closeConfirmSearchable();
 }
 
 function closeConfirmSearchable() {
@@ -602,6 +606,8 @@ function closeConfirmSearchable() {
 
 function openConfirmSearchable() {
   jQuery('#confirmSearchable').show();
+  closeConfirmPublished();
+  closeConfirmPrivate();
 }
 
 
