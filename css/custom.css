@@ -569,14 +569,11 @@ body.toolbar {
   float: right;
 }
 
-
-
-
-
-
-
-
-
+/* knowledge base */
+.kb { padding-bottom: 1em; }
+.kb .control-group > label { color: #ac7f25; }
+.kb.index .list { border-right: 1px solid #ced9db; }
+.kb .search-form button { background-color: #0c95cb; background-image: linear-gradient(to bottom, #0c95cb, #0c95cb); }
 
 
 @media print {
