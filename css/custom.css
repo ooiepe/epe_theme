@@ -575,6 +575,36 @@ body.toolbar {
 .kb.index .list { border-right: 1px solid #ced9db; }
 .kb .search-form button { background-color: #0c95cb; background-image: linear-gradient(to bottom, #0c95cb, #0c95cb); }
 
+/* profile resource list */
+.published-resources-list { padding-top: 2em; }
+.published-resources-list .views-table { width: 100%; }
+.published-resources-list th { background-color: #b7b7b7; color: #fff; text-align: left; padding-left: 1em; font-weight: 400; }
+.published-resources-list .thumb { float: left; }
+.published-resources-list .info-content { margin-left: 150px; padding-right: 0.5em; padding-top: 1em; padding-bottom: 3em; position: relative; }
+.published-resources-list .info-content a { color: #000; }
+.published-resources-list .views-field-changed { width: 125px; padding-left: 1em; }
+.published-resources-list table { border: 1px solid #8cbcc8; }
+.published-resources-list tr { border-bottom: 1px solid #8cbcc8; }
+.published-resources-list tr.even { background-color: #d5f2f9; }
+.published-resources-list thead > tr { border-bottom: 0; }
+.published-resources-list th:first-child { border-right: 1px solid #d6d6d6; }
+.published-resources-list td:first-child { border-right: 1px solid #d6d6d6; }
+.type-ev_tool_instance, .type-image_resource, .type-document_resource, .type-llb_resource, .type-cm_resource, .type-audio_resource, .type-video_resource, .type-web_resource,
+.resource-status { font-size: 9px; color: #316886; position: absolute; bottom: 5px; }
+.published-resources-list .resource-status { right: 0; }
+.feature-Featured, .public-Public, .share-Yes { float: left; padding-right: 5px; }
+.type-ev_tool_instance:after { content: "VISUALIZATION"; border: 1px solid #c4dae5; padding: 2px 4px 2px 4px; }
+.type-image_resource:after { content: "IMAGE"; border: 1px solid #c4dae5; padding: 2px 4px 2px 4px; }
+.type-document_resource:after { content: "DOCUMENT"; border: 1px solid #c4dae5; padding: 2px 4px 2px 4px; }
+.type-llb_resource:after { content: "INVESTIGATION"; border: 1px solid #c4dae5; padding: 2px 4px 2px 4px; }
+.type-cm_resource:after { content: "CONCEPT MAP"; border: 1px solid #c4dae5; padding: 2px 4px 2px 4px; }
+.type-audio_resource:after { content: "AUDIO"; border: 1px solid #c4dae5; padding: 2px 4px 2px 4px; }
+.type-video_resource:after { content: "VIDEO"; border: 1px solid #c4dae5; padding: 2px 4px 2px 4px; }
+.type-web_resource:after { content: "WEB"; border: 1px solid #c4dae5; padding: 2px 4px 2px 4px; }
+.feature-Featured:after { content: "FEATURED"; border: 1px solid #c4dae5; padding: 2px 4px 2px 4px;}
+.public-Public:after { content: "PUBLIC"; border: 1px solid #c4dae5; padding: 2px 4px 2px 4px; }
+.share-Yes:after { content: "SHARED"; border: 1px solid #c4dae5; padding: 2px 4px 2px 4px; }
+
 
 @media print {
   a[href]:after {

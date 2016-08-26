@@ -159,10 +159,10 @@ if ($account->uid != $user->uid) {
  ?>
 
 <?php if(module_exists('epe_wp')): ?>
-<fieldset>
-  <legend>My Published Resources</legend>
-  <?php echo views_embed_view('user_resources',$display_id='public'); ?>
-</fieldset>
+<div class="published-resources-list">
+<h4>My Published Resources</h4>
+<?php echo views_embed_view('user_resources',$display_id='public'); ?>
+</div>
 <?php  endif; ?>
 
 
