@@ -221,7 +221,8 @@ if ($node->status == 1) {
     padding-left: 20px;
 }
 
-.resource-links ul li a.links {
+.resource-links ul li a.links,
+.flag-favorite-resource a {
     color: #356281;
     text-decoration: none;
     background-position: left center;
@@ -428,6 +429,11 @@ if ($node->status == 1) {
     </li>
 <?php endif; ?>
 
+<?php if(user_is_logged_in()): ?>
+  <li>
+  <?php echo flag_create_link('favorite_resource', $node->nid); ?>
+  </li>
+<?php endif; ?>
   </ul>
 </div>
 
