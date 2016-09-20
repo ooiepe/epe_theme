@@ -621,12 +621,32 @@ body.toolbar {
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);  
 }
 
-.help-block {
+#llbnav > li > a { background-color: #cddbe1;  }
+#llbnav .infotab { background-color:#ececec;color:#606060; }
+#llbnav .active > a,
+#llbnav .active .infotab { background-color: #fff; }
+.node-llb_resource-form .form-actions .form-submit { margin-left: 10px; }
+
+.node-form .help-block,
+.node-form fieldset.filter-wrapper {
   margin-top: 1em;
   padding: 1em;
   background-color: #ccd2db;
   border: 1px solid #cecece;
   color: #000;
+}
+
+.node-form #edit-submit, .node-form #edit-cancel,
+.node-form .form-submit.field-add-more-submit, .node-form .form-submit.field-add-more-submit:hover, .node-form .form-submit.field-add-more-submit:focus, .field-add-more-submit:active, 
+.node-form .form-submit.field-add-more-submit.active, .node-form .form-submit.field-add-more-submit.disabled, .node-form .form-submit.field-add-more-submit[disabled] { 
+  background-color: #ac7f25;
+  background-image: -moz-linear-gradient(top, #ac7f25, #ac7f25);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ac7f25), to(#ac7f25));
+  background-image: -webkit-linear-gradient(top, #ac7f25, #ac7f25);
+  background-image: -o-linear-gradient(top, #ac7f25, #ac7f25);
+  background-image: linear-gradient(to bottom, #ac7f25, #ac7f25);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffac7f25', endColorstr='#ffac7f25', GradientType=0);
+  border-color: #ac7f25 #ac7f25 #6d5117;
 }
 
 .form-type-select .control-label { float: left; margin-right: 10px; margin-top: 2px; }
