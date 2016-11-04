@@ -199,7 +199,7 @@ if ($node->status == 1) {
   $social_share_output = '';
   $social_share_block = module_invoke('epe_wp', 'block_view', 'epe_wp_social_share');
   if($social_share_block) $social_share_output = '<br/>' . $social_share_block['content'];
-  $resourceStausSelector = $resourceStausSelector . '<br><br>Your resource is shared and is visible to anyone with the link.<br><br>Link to share:<br><input type="text" class="input" style="width:100%;" value="'. $node_detail_url .'">' . $social_share_output; 
+  $resourceStausSelector = $resourceStausSelector . '<br><br>Your resource is shared and is visible to anyone with the link.<br><br>Link to share:<br><input type="text" class="input" style="width:100%;" value="'. $node_detail_url .'">' . $social_share_output;
 }
 
 ?>
@@ -307,7 +307,7 @@ if ($node->status == 1) {
   <?php if ($hasAccess_Clone == 1): ?>
       <li>
       <!-- <a href="<?php echo base_path() . "node/" . $node -> nid ?>/clone/<?php echo clone_token_to_arg() ?>" class="links copy" title="Copy This Resource">COPY</a> -->
-      <?php 
+      <?php
       echo l(t('COPY'), $node->nid . '/clone/' .  clone_token_to_arg(),
         array(
           'attributes'=>array(
@@ -319,16 +319,16 @@ if ($node->status == 1) {
             'trigger'=>'manual'
           ),
           'external'=>true
-        )      
-      ); 
-      ?>      
+        )
+      );
+      ?>
       </li>
   <?php endif; ?>
 <?php endif; ?>
 
 <?php if ($field_public_status == 'Public' && $hasAccess_Edit == 1): ?>
     <li><!-- <a href="#" class="links edit popover-link" id="edit-btn" title="Edit This Resource">EDIT</a> -->
-      <?php 
+      <?php
       echo l(t('EDIT'),'#',
         array(
           'attributes'=>array(
@@ -340,14 +340,14 @@ if ($node->status == 1) {
             'trigger'=>'manual'
           ),
           'external'=>true
-        )      
-      ); 
+        )
+      );
       ?>
     </li>
 <?php elseif ($hasAccess_Edit == 1): ?>
     <li>
     <!-- <a href="<?php echo base_path() . "node/" . $node -> nid ?>/edit/" class="links edit" id="edit-btn" title="Edit This Resource">EDIT</a> -->
-    <?php 
+    <?php
       echo l(t('EDIT'), $node->nid . '/edit/',
         array(
           'attributes'=>array(
@@ -359,16 +359,16 @@ if ($node->status == 1) {
             'trigger'=>'manual'
           ),
           'external'=>true
-        )      
-      ); 
-    ?>    
+        )
+      );
+    ?>
     </li>
 <?php endif; ?>
 
 <?php if ($hasAccess_Delete == 1): ?>
     <li>
     <!-- <a href="#" class="links delete popover-link" id="delete-btn" title="Delete This Resource">DELETE</a> -->
-    <?php 
+    <?php
     echo l(t('DELETE'),'#',
       array(
         'attributes'=>array(
@@ -380,8 +380,8 @@ if ($node->status == 1) {
           'trigger'=>'manual'
         ),
         'external'=>true
-      )      
-    ); 
+      )
+    );
     ?>
     </li>
 <?php endif; ?>
@@ -389,7 +389,7 @@ if ($node->status == 1) {
 <?php if ($hasAccess_Share == 1): ?>
     <li>
     <!-- <a href="#" class="links publish popover-link" id="changestatus-btn" title="Share This Resource">SHARE</a> -->
-    <?php 
+    <?php
     echo l(t('SHARE'),'#',
       array(
         'attributes'=>array(
@@ -401,16 +401,16 @@ if ($node->status == 1) {
           'trigger'=>'manual'
         ),
         'external'=>true
-      )      
-    ); 
-    ?>    
+      )
+    );
+    ?>
     </li>
 <?php endif; ?>
 
 <?php if ($hasAccess_Feature == 1 && $field_public_status == 'Public'): ?>
     <li>
     <!-- <a href="#" class="links share popover-link" id="feature-btn" title="Feature This Resource">FEATURE</a> -->
-    <?php 
+    <?php
     echo l(t('FEATURE'),'#',
       array(
         'attributes'=>array(
@@ -422,9 +422,9 @@ if ($node->status == 1) {
           'trigger'=>'manual'
         ),
         'external'=>true
-      )      
-    ); 
-    ?>    
+      )
+    );
+    ?>
     </li>
 <?php endif; ?>
 
@@ -436,7 +436,9 @@ if ($node->status == 1) {
 
 <div class="resource-heading">
   <div class="resource-title"><?php print $node -> title ?></div>
+  <?php if($node->type != 'ev_tool'): ?>
   <div class="resource-author"><strong>Created by:</strong> <a href="<?php echo base_path() . "user/" . $node -> uid ?>"><?php print $user_name ?></a></div>
+  <?php endif; ?>
   <?php if( $user->uid == $node->uid): ?>
       <div class="resource-description"><strong>Status:</strong> <?php echo $resourceStatusDesc ?></div>
   <?php endif; ?>
@@ -463,7 +465,7 @@ function loadMenu() {
         .popover(
           {
             title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeShareConfirm(); return false;"><i class="icon-remove"></i></button>',
-            html: 'true', 
+            html: 'true',
             placement: 'bottom',
             content: function(){
               return '<?php echo $resourceStausSelector ?>';
@@ -489,9 +491,9 @@ function loadMenu() {
     $('#delete-btn')
       .popover(
         {
-          title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeDeleteConfirm(); return false;"><i class="icon-remove"></i></button>', 
-          html: 'true', 
-          placement: 'bottom', 
+          title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeDeleteConfirm(); return false;"><i class="icon-remove"></i></button>',
+          html: 'true',
+          placement: 'bottom',
           content: 'Your resource is currently being used by other resources and cannot be deleted.<br><br><div align="center"><button onclick="closeDeleteConfirm();" class="btn">OK</button></div>'
         }
       );
@@ -499,9 +501,9 @@ function loadMenu() {
     $('#delete-btn')
       .popover(
         {
-          title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeDeleteConfirm(); return false;"><i class="icon-remove"></i></button>', 
-          html: 'true', 
-          placement: 'bottom', 
+          title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeDeleteConfirm(); return false;"><i class="icon-remove"></i></button>',
+          html: 'true',
+          placement: 'bottom',
           content: 'Your resource is currently visible in the public database.<br><br>Please unpublish this resource before deleting.<br><br><div align="center"><button onclick="closeDeleteConfirm();" class="btn">OK</button></div>'
         }
       );
@@ -534,9 +536,9 @@ function loadMenu() {
         $('#feature-btn')
           .popover(
             {
-              title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeFeatureConfirm(); return false;"><i class="icon-remove"></i></button>', 
-              html: 'true', 
-              placement: 'bottom', 
+              title: '<a style="float:right;margin-top:-9px;" href="#" onclick="closeFeatureConfirm(); return false;"><i class="icon-remove"></i></button>',
+              html: 'true',
+              placement: 'bottom',
               content: 'Do you wish to feature this resource?<br><br><div align="center"><a class="btn btn-primary" href="<?php echo base_path() . "node/" . $node -> nid ?>/feature/">Yes</a>&nbsp;&nbsp;<button onclick="closeFeatureConfirm();" class="btn">No</button></div>'
             }
           );
@@ -616,4 +618,3 @@ function openConfirmSearchable() {
 <?php drupal_add_js('jQuery(document).ready(function () { loadMenu(); });', array('type' => 'inline', 'scope' => 'footer', 'weight' => 5)); ?>
 
 <?php drupal_add_js(drupal_get_path('theme','epe_theme') . '/js/resource-toolbar.tooltip.js'); ?>
-
