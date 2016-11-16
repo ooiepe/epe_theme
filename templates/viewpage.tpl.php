@@ -437,7 +437,7 @@ if ($node->status == 1) {
 <div class="resource-heading">
   <div class="resource-title"><?php print $node -> title ?></div>
   <div class="resource-author"><strong>Created by:</strong> <a href="<?php echo base_path() . "user/" . $node -> uid ?>"><?php print $user_name ?></a></div>
-  <?php if( $user->uid == $node->uid): ?>
+  <?php if( $node->type == 'llb_resource' && !arg(2) && $user->uid == $node->uid): ?>
       <div class="resource-description"><strong>Status:</strong> <?php echo $resourceStatusDesc ?></div>
   <?php endif; ?>
 
@@ -447,7 +447,7 @@ if ($node->status == 1) {
   <?php endif; ?>
 
 
-  <?php if( !empty($node -> body) && !$isLLB): ?>
+  <?php if( (!empty($node -> body) && !$isLLB) && ($node->type != 'llb_resource' && !arg(2)) ): ?>
       <div class="resource-description"><?php print $node -> body['und'][0]['value'] ?> </div>
   <?php endif; ?>
 
