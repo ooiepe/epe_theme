@@ -725,6 +725,13 @@ section .view-knowledge-base-view table td { border: 0; }
 
 /* knowledge base */
 .epe_help input.search-field { width: 75%; margin-right: 0.5em; }
+.epe_help.subtitle {
+  color: #aa5f0c;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.epe_help .breadcrumb { padding: 0; }
 
 /* resource assoc section */
 .view-resource-view-stats th { padding-right: 1.5em; }
