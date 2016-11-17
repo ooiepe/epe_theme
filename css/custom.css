@@ -522,9 +522,10 @@ body.toolbar {
   float: right;
   margin-top: -45px;
   clear: both;
+  text-transform: uppercase;
 }
 
-
+.form-help a { color: #86A6C1; }
 
 .node-unpublished {
   background-color: #fff;
