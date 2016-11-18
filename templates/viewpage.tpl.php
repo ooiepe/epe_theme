@@ -455,7 +455,7 @@ if ($node->status == 1) {
   <?php endif; ?>
 
 
-  <?php if( !empty($node -> body) && !$isLLB): ?>
+  <?php if( (!empty($node -> body) && !$isLLB) && ($node->type != 'llb_resource' && !arg(2)) ): ?>
       <div class="resource-description"><?php print $node -> body['und'][0]['value'] ?> </div>
   <?php endif; ?>
 
