@@ -308,7 +308,7 @@ if ($node->status == 1) {
       <li>
       <!-- <a href="<?php echo base_path() . "node/" . $node -> nid ?>/clone/<?php echo clone_token_to_arg() ?>" class="links copy" title="Copy This Resource">COPY</a> -->
       <?php 
-      echo l(t('COPY'), $node->nid . '/clone/' .  clone_token_to_arg(),
+      echo l(t('COPY'), base_path() . "node/" . $node->nid . '/clone/' .  clone_token_to_arg(),
         array(
           'attributes'=>array(
             'data-placement'=>'bottom',
@@ -348,7 +348,7 @@ if ($node->status == 1) {
     <li>
     <!-- <a href="<?php echo base_path() . "node/" . $node -> nid ?>/edit/" class="links edit" id="edit-btn" title="Edit This Resource">EDIT</a> -->
     <?php 
-      echo l(t('EDIT'), $node->nid . '/edit/',
+      echo l(t('EDIT'), base_path() . 'node/' . $node->nid . '/edit/',
         array(
           'attributes'=>array(
             'data-placement'=>'bottom',
