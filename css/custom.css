@@ -662,6 +662,12 @@ body.toolbar {
     background-color: #5cb85c;
 }
 
+.h2-container .field-label {
+  color: #aa5f0c;
+  font-weight: bold;
+  padding-bottom: 10px  
+}
+
 /* about page */
 .tool-home { padding-bottom: 1em; border-bottom: 1px solid #c9e0e8; }
 .content_wrapper .featured-image { border: 1px solid #0195bd;  }
@@ -682,7 +688,7 @@ body.toolbar {
 .about .view-knowledge-base-view td, .about .view-knowledge-base-view a { color: #016690; }
 
 /* content table */
-section table {
+div.field table {
   width: 100%;
   border-width: 1px;
   border-spacing: 2px;
@@ -692,7 +698,7 @@ section table {
   background-color: white;
 }
 
-section table th {
+div.field table th {
   border-width: 1px;
   padding: 3px 1px;
   border-style: solid;
@@ -705,7 +711,19 @@ section table th {
   font-weight: normal;
 }
 
-section table th a {
+div.field table td {
+  border-width: 1px;
+  padding: 1px;
+  border-style: solid;
+  border-color: #cbcbcb;
+  background-color: #ffffff;
+  -moz-border-radius: ;
+  vertical-align: top;
+  padding: 13px;
+  color: #000;
+}
+
+div.field table th a {
   color: #fff;
 }
 
@@ -714,15 +732,6 @@ section table th a {
 .kb .control-group > label { color: #ac7f25; }
 .kb.index .list { border-right: 1px solid #ced9db; }
 .kb .search-form button { background-color: #0c95cb; background-image: linear-gradient(to bottom, #0c95cb, #0c95cb); }
-
-.epe_help input.search-field { width: 75%; margin-right: 0.5em; }
-.epe_help.subtitle {
-  color: #aa5f0c;
-  font-weight: bold;
-  font-size: 20px;
-}
-
-.epe_help .breadcrumb { padding: 0; }
 
 /* profile resource list */
 .published-resources-list { padding-top: 2em; }
@@ -767,7 +776,7 @@ section table th a {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff1c96c9', endColorstr='#ff1c96c9', GradientType=0);
   border-color: #1c96c9 #1c96c9 #6d5117;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);  
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
 
 #llbnav > li > a { background-color: #cddbe1;  }
@@ -786,8 +795,8 @@ section table th a {
 }
 
 .node-form #edit-submit, .node-form #edit-cancel,
-.node-form .form-submit.field-add-more-submit, .node-form .form-submit.field-add-more-submit:hover, .node-form .form-submit.field-add-more-submit:focus, .field-add-more-submit:active, 
-.node-form .form-submit.field-add-more-submit.active, .node-form .form-submit.field-add-more-submit.disabled, .node-form .form-submit.field-add-more-submit[disabled] { 
+.node-form .form-submit.field-add-more-submit, .node-form .form-submit.field-add-more-submit:hover, .node-form .form-submit.field-add-more-submit:focus, .field-add-more-submit:active,
+.node-form .form-submit.field-add-more-submit.active, .node-form .form-submit.field-add-more-submit.disabled, .node-form .form-submit.field-add-more-submit[disabled] {
   background-color: #ac7f25;
   background-image: -moz-linear-gradient(top, #ac7f25, #ac7f25);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ac7f25), to(#ac7f25));
@@ -811,20 +820,18 @@ textarea {
   border: 1px solid #6b8f9f;
 }
 
-section table td {
-  border-width: 1px;
-  padding: 1px;
-  border-style: solid;
-  border-color: #cbcbcb;
-  background-color: #ffffff;
-  -moz-border-radius: ;
-  vertical-align: top;
-  padding: 13px;
-  color: #000;
-}
-
 section .view-knowledge-base-view table,
 section .view-knowledge-base-view table td { border: 0; }
+
+/* knowledge base */
+.epe_help input.search-field { width: 75%; margin-right: 0.5em; }
+.epe_help.subtitle {
+  color: #aa5f0c;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.epe_help .breadcrumb { padding: 0; }
 
 /* resource assoc section */
 .view-resource-view-stats th { padding-right: 1.5em; }
