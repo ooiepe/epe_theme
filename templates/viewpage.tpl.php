@@ -1,7 +1,5 @@
-
 <script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-tooltip.js"></script>
 <script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-popover.js"></script>
-
 
 <?php
 $node_detail_url = $GLOBALS['base_url'] . "/node/" . $node -> nid;
@@ -32,7 +30,6 @@ if (!empty($user_data->field_account_fname['und'][0]['value']) && !empty($user_d
 }
 
 ?>
-
 
 <style>
 .node-tabs, .action-links {
@@ -204,8 +201,6 @@ if ($node->status == 1) {
 
 ?>
 
-
-
 <style>
 .resource-links {
   float: right;
@@ -288,15 +283,10 @@ if ($node->status == 1) {
     <button type="button" class="close" data-dismiss="alert">&times;</button>
     <h4>Please Review</h4>
     This item has been submitted for review and inclusion in the public database. Please review this item and approve or reject as appropriate.<br><br>
-    <a class="btn btn-success" href="<?php echo base_path() . "node/" . $node -> nid ?>/approvepublic/">Approve</a> <a class="btn btn-danger" href="<?php echo base_path() . "node/" . $node -> nid ?>/rejectpublic/">Reject</a>
+    <a class="btn btn-success" href="<?php echo base_path() . "node/" . $node -> nid; ?>/approvepublic/">Approve</a> <a class="btn btn-danger" href="<?php echo base_path() . "node/" . $node -> nid; ?>/rejectpublic/">Reject</a>
 
     </div>
 <?php endif; ?>
-
-
-
-
-
 
 <?php if ($hideActionButtons == 0): ?>
 
@@ -307,9 +297,8 @@ if ($node->status == 1) {
 <?php if ($isDBFiles == 0): ?>
   <?php if ($hasAccess_Clone == 1): ?>
       <li>
-      <!-- <a href="<?php echo base_path() . "node/" . $node -> nid ?>/clone/<?php echo clone_token_to_arg() ?>" class="links copy" title="Copy This Resource">COPY</a> -->
-      <?php
-      echo l(t('COPY'), $node->nid . '/clone/' .  clone_token_to_arg(),
+      <?php 
+      echo l(t('COPY'), base_path() . "node/" . $node->nid . '/clone/' .  clone_token_to_arg(),
         array(
           'attributes'=>array(
             'data-placement'=>'bottom',
@@ -328,7 +317,7 @@ if ($node->status == 1) {
 <?php endif; ?>
 
 <?php if ($field_public_status == 'Public' && $hasAccess_Edit == 1): ?>
-    <li><!-- <a href="#" class="links edit popover-link" id="edit-btn" title="Edit This Resource">EDIT</a> -->
+    <li>
       <?php
       echo l(t('EDIT'),'#',
         array(
@@ -347,9 +336,8 @@ if ($node->status == 1) {
     </li>
 <?php elseif ($hasAccess_Edit == 1): ?>
     <li>
-    <!-- <a href="<?php echo base_path() . "node/" . $node -> nid ?>/edit/" class="links edit" id="edit-btn" title="Edit This Resource">EDIT</a> -->
-    <?php
-      echo l(t('EDIT'), $node->nid . '/edit/',
+    <?php 
+      echo l(t('EDIT'), base_path() . 'node/' . $node->nid . '/edit/',
         array(
           'attributes'=>array(
             'data-placement'=>'bottom',
@@ -368,7 +356,6 @@ if ($node->status == 1) {
 
 <?php if ($hasAccess_Delete == 1): ?>
     <li>
-    <!-- <a href="#" class="links delete popover-link" id="delete-btn" title="Delete This Resource">DELETE</a> -->
     <?php
     echo l(t('DELETE'),'#',
       array(
@@ -389,7 +376,6 @@ if ($node->status == 1) {
 
 <?php if ($hasAccess_Share == 1): ?>
     <li>
-    <!-- <a href="#" class="links publish popover-link" id="changestatus-btn" title="Share This Resource">SHARE</a> -->
     <?php
     echo l(t('SHARE'),'#',
       array(
@@ -410,7 +396,6 @@ if ($node->status == 1) {
 
 <?php if ($hasAccess_Feature == 1 && $field_public_status == 'Public'): ?>
     <li>
-    <!-- <a href="#" class="links share popover-link" id="feature-btn" title="Feature This Resource">FEATURE</a> -->
     <?php
     echo l(t('FEATURE'),'#',
       array(
@@ -439,13 +424,11 @@ if ($node->status == 1) {
 
 <?php endif; ?>
 
-
 <div class="resource-heading">
-  <div class="resource-title"><?php print $node -> title ?></div>
+  <div class="resource-title"><?php print $node -> title; ?></div>
   <?php if($node->type != 'ev_tool'): ?>
-  <div class="resource-author"><strong>Created by:</strong> <a href="<?php echo base_path() . "user/" . $node -> uid ?>"><?php print $user_name ?></a></div>
-  <?php endif; ?>
-  <?php if( $user->uid == $node->uid): ?>
+  <div class="resource-author"><strong>Created by:</strong> <a href="<?php echo base_path() . "user/" . $node -> uid; ?>"><?php print $user_name; ?></a></div>
+  <?php elseif( $node->type == 'llb_resource' && !arg(2) && $user->uid == $node->uid): ?>
       <div class="resource-description"><strong>Status:</strong> <?php echo $resourceStatusDesc ?></div>
   <?php endif; ?>
 
@@ -455,8 +438,8 @@ if ($node->status == 1) {
   <?php endif; ?>
 
 
-  <?php if( !empty($node -> body) && !$isLLB): ?>
-      <div class="resource-description"><?php print $node -> body['und'][0]['value'] ?> </div>
+  <?php if( (!empty($node -> body) && !$isLLB) && ($node->type != 'llb_resource' && !arg(2)) ): ?>
+      <div class="resource-description"><?php print $node -> body['und'][0]['value']; ?> </div>
   <?php endif; ?>
 
 </div>
