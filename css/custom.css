@@ -665,7 +665,8 @@ body.toolbar {
 .h2-container .field-label {
   color: #aa5f0c;
   font-weight: bold;
-  padding-bottom: 10px  
+  padding-bottom: 10px
+  font-size: 1.2em;
 }
 
 /* about page */
